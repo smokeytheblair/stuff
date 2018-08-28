@@ -1,3 +1,7 @@
+# compute primtes up to max number using the Sieve algorithm
+# https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes
+#
+
 import sys
 import math
 from numpy import arange

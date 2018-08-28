@@ -1,3 +1,8 @@
+# compute primes up to max using the Sieve algorithm
+#https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes
+#
+
+
 import Dates
 
 function print_usage()

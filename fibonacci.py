@@ -1,3 +1,10 @@
+# compute fibonacci sequence up to max value passed in 
+# also compute the y' and y" to identify that the sequence
+# approaches the golden ratio
+#
+# https://en.wikipedia.org/wiki/Golden_ratio
+
+
 import sys
 import math
 from decimal import Decimal
