@@ -1,6 +1,6 @@
 # compute primes up to max using the Sieve algorithm
-#https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes
-#
+# https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes
+# https://docs.julialang.org/en/v1/
 
 
 import Dates
