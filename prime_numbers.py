@@ -19,7 +19,7 @@ def mark_multiples_of_prime(numbers, prime_index: int, max: int):
     # print('Checking prime:{}'.format(prime))
     
     for i in range(prime_index,len(numbers),numbers[prime_index]):
-        if (i<len(numbers) and i>prime_index):
+        if (i>prime_index):
             numbers[i] = 0
 
 def compute_primes(max: int):
