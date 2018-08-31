@@ -17,9 +17,14 @@ def create_number_list(max: int):
 
 def mark_multiples_of_prime(numbers, prime_index: int, max: int):
     # print('Checking prime:{}'.format(prime))
+
+    prime = numbers[prime_index]
+    array_length = len(numbers)
     
-    for i in range(prime_index,len(numbers),numbers[prime_index]):
-        if (i>prime_index):
+    # the for loop will start at one multiple pass the current prime
+    # it will walk the list of numbers by multiples of prime
+    # this logic removes the need for any if statements inside the loop
+    for i in range(prime_index+prime, array_length, prime):
             numbers[i] = 0
 
 def compute_primes(max: int):
