@@ -25,7 +25,7 @@ def mark_multiples_of_prime(numbers, prime_index: int, max: int):
     # it will walk the list of numbers by multiples of prime
     # this logic removes the need for any if statements inside the loop
     for i in range(prime_index+prime, array_length, prime):
-            numbers[i] = 0
+        numbers[i] = 0
 
 def compute_primes(max: int):
     start_time = datetime.now()
