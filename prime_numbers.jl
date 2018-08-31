@@ -20,11 +20,9 @@ function remove_multiples(numbers, prime_index, max)
 
   # println("called remove_multiple(", prime_index, ") = ", prime, ", length: ", array_length)
 
-  @inbounds for i in prime_index : prime : array_length
-    current_index::Int64 = Int64(i)
-
+  @inbounds for current_index::Int64 in prime_index : prime : array_length
     if current_index <= array_length && numbers[current_index] > prime
-      # println("i = ", i, " - Removing numbers[",current_index , "] = ", numbers[current_index])
+      # println("i = ", current_index, " - Removing numbers[",current_index , "] = ", numbers[current_index])
       numbers[current_index] = 0
     end
   end
