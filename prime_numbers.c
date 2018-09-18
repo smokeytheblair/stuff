@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 
 void print_usage(const char* szName)
 {
@@ -10,18 +11,23 @@ void create_number_list(long max, long ** numbers)
 {
   *numbers = (long*)malloc(sizeof(long) * max/2);
 
+  clock_t start = clock();
+
   for (long idx = 1; idx <= (long)(max/2); idx++)
   {
     (*numbers)[idx-1] = (idx*2) - 1;
   }
 
   //printf("created list of numbers: %ld \n", (long)(max/2));
-  for(long idx = 0; idx < max/2; idx++)
-  {
-    //printf("%ld, ", (*numbers)[idx]);
-  }
+  //for(long idx = 0; idx < max/2; idx++)
+  //{
+  //  printf("%ld, ", (*numbers)[idx]);
+  //}
   //printf("\n");
 
+  clock_t finish = clock();
+
+  printf("Took %f seconds to build the array to %ld\n", ((double) finish-start)/CLOCKS_PER_SEC, max);
 } 
 
 void zero_multiples_of_prime(long prime_index, long* numbers, long max)
@@ -40,8 +46,12 @@ void zero_multiples_of_prime(long prime_index, long* numbers, long max)
 
 int compute_primes(long max)
 {
+  printf("Computing primes from 0 to %ld\n", max);
+
   long * numbers = NULL;
 
+  clock_t start = clock();
+  
   create_number_list(max, &numbers);
 
   //loop on the primes and call zero_multipls...
@@ -65,7 +75,10 @@ int compute_primes(long max)
     }
   }
 
-  printf("\nFound %ld prime numbers out of %ld\n", count_primes, max);
+  clock_t finish = clock();
+
+  printf("Found %ld prime numbers out of %ld\n", count_primes, max);
+  printf("Compute time: %f seconds", ((double) finish - start)/CLOCKS_PER_SEC);
 
   // clean up
   if (NULL != numbers)

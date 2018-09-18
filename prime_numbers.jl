@@ -28,40 +28,41 @@ function remove_multiples(numbers, prime_index, max)
   end
 end
 
+function compute_primes(max::Int64)
+  start_time = Dates.now()
+
+  numbers = make_array(max)
+
+  # println(numbers)
+  # println("Length: ", length(numbers))
+
+  println("Computing primes from 0 to ", max)
+
+  @inbounds for i = 2:(Int64(length(numbers)/2))
+    if numbers[i] > 0
+      remove_multiples(numbers, i, max)
+    end
+  end
+
+
+  primes = filter(x -> x>0, numbers)
+
+  mid_time = Dates.now()
+
+  # println("Primes: ", primes)
+
+  finish_time = Dates.now()
+
+  println("Start: ", start_time, ", Mid: ", mid_time, ", Finish: ", finish_time)
+  println("Compute time: ", (mid_time - start_time))
+  println("Found: ",  length(primes), " prime numbers under: ", max)
+end
+
 function main()
   if length(ARGS) < 1
     print_usage()
   else
-    max = parse(Int64, ARGS[1])
-
-    start_time = Dates.now()
-
-    numbers = make_array(max)
-
-    # println(numbers)
-    # println("Length: ", length(numbers))
-
-    println("Computing primes from 0 to ", max)
-
-    @inbounds for i = 2:(Int64(length(numbers)/2))
-      if numbers[i] > 0
-        remove_multiples(numbers, i, max)
-      end
-    end
-
-
-    primes = filter(x -> x>0, numbers)
-
-    mid_time = Dates.now()
-
-    # println("Primes: ", primes)
-
-    finish_time = Dates.now()
-
-    println("Start: ", start_time, ", Mid: ", mid_time, ", Finish: ", finish_time)
-    println("Compute time: ", mid_time - start_time)
-    println("Found: ",  length(primes), " prime numbers under: ", max)
-
+    compute_primes(parse(Int64, ARGS[1]))
   end
 
 end

@@ -1,4 +1,4 @@
-# compute primtes up to max number using the Sieve algorithm
+# compute primes up to max number using the Sieve algorithm
 # https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes
 #
 
