@@ -9,11 +9,13 @@ void print_usage(const char* szName)
 
 void create_number_list(long max, long ** numbers)
 {
-  *numbers = (long*)malloc(sizeof(long) * max/2);
-
   clock_t start = clock();
 
-  for (long idx = 1; idx <= (long)(max/2); idx++)
+  *numbers = (long*)malloc(sizeof(long) * max/2);
+
+  long length = (long)max/2;
+
+  for (long idx = 1; idx <= length; idx++)
   {
     (*numbers)[idx-1] = (idx*2) - 1;
   }
@@ -36,7 +38,9 @@ void zero_multiples_of_prime(long prime_index, long* numbers, long max)
 
   //printf("Removing multiples of %ld: ", prime);
 
-  for (long i=prime_index+prime; i<(long)(max/2); i+=prime)
+  long length = (long)max/2;
+
+  for (long i=prime_index+prime; i<length; i+=prime)
   {
     //printf("numbers[%ld] = %ld, ", i, numbers[i]);
     numbers[i] = 0;
@@ -55,8 +59,14 @@ int compute_primes(long max)
   create_number_list(max, &numbers);
 
   //loop on the primes and call zero_multipls...
+  // only walk half of the array, because multiples
+  // will start to be off the end of the array
   //
-  for(long idx = 1; idx<(long)(max/2); idx++)
+
+  long length = (long)(max/2);
+  long half_length = (long)length/2;
+
+  for(long idx = 1; idx<half_length; idx++)
   {
     if ( 0 < numbers[idx])
     {
@@ -66,7 +76,7 @@ int compute_primes(long max)
 
   // print out/count primes
   long count_primes = 0;
-  for (long i=0; i<(long)(max/2); i++)
+  for (long i=0; i<length; i++)
   {
     if (numbers[i] > 0)
     {
