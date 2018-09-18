@@ -38,7 +38,9 @@ function compute_primes(max::Int64)
 
   println("Computing primes from 0 to ", max)
 
-  @inbounds for i = 2:(Int64(length(numbers)/2))
+  half_length::Int64 = Int64(length(numbers)/2)
+
+  @inbounds for i = 2:half_length
     if numbers[i] > 0
       remove_multiples(numbers, i, max)
     end

@@ -36,7 +36,9 @@ def compute_primes(max: int):
 
     print('Computing primes from 0 to {}'.format(max))
 
-    for index in range(int(1), int(len(numbers)/2)):
+    half_length = int(len(numbers)/2)
+
+    for index in range(int(1), half_length):
         if (numbers[index] > 1):
             # print('index: {}, prime: {}'.format(index, numbers[index]))
             mark_multiples_of_prime(numbers, index, max)
