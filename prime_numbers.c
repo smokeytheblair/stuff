@@ -9,7 +9,7 @@ void print_usage(const char* szName)
 
 void create_number_list(long max, long ** numbers)
 {
-  clock_t start = clock();
+  //clock_t start = clock();
 
   *numbers = (long*)malloc(sizeof(long) * max/2);
 
@@ -27,9 +27,9 @@ void create_number_list(long max, long ** numbers)
   //}
   //printf("\n");
 
-  clock_t finish = clock();
+  //clock_t finish = clock();
 
-  printf("Took %f seconds to build the array to %ld\n", ((double) finish-start)/CLOCKS_PER_SEC, max);
+  //printf("Took %f seconds to build the array to %ld\n", ((double) finish-start)/CLOCKS_PER_SEC, max);
 } 
 
 void zero_multiples_of_prime(long prime_index, long* numbers, long max)
