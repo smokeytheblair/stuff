@@ -16,6 +16,9 @@ void create_number_list(long max, long ** numbers)
 
   long length = (long)max/2;
 
+  # the for loop will start at one multiple past the current prime
+  # it will walk the list of numbers by multiples of prime
+  # this logic removes the need for any if statements inside the loop
   for (long idx = 1; idx <= length; idx++)
   {
     (*numbers)[idx-1] = (idx*2) - 1;

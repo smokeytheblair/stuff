@@ -21,7 +21,7 @@ def mark_multiples_of_prime(numbers, prime_index: int, max: int):
     prime = numbers[prime_index]
     array_length = len(numbers)
     
-    # the for loop will start at one multiple pass the current prime
+    # the for loop will start at one multiple past the current prime
     # it will walk the list of numbers by multiples of prime
     # this logic removes the need for any if statements inside the loop
     for i in range(prime_index+prime, array_length, prime):

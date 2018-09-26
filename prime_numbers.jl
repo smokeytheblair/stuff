@@ -20,7 +20,7 @@ function remove_multiples(numbers, prime_index, max)
 
   # println("called remove_multiple(", prime_index, ") = ", prime, ", length: ", array_length)
 
-  # the for loop will start at one multiple pass the current prime
+  # the for loop will start at one multiple past the current prime
   # it will walk the list of numbers by multiples of prime
   # this logic removes the need for any if statements inside the loop
   @inbounds for current_index::Int64 in prime_index+prime : prime : array_length
