@@ -12,6 +12,10 @@
 #define IS_NUM '0': case '1': case '2': case '3': case '4': \
                case '5': case '6': case '7': case '8': case '9'
 
+void print_usage(const char* szName)
+{
+  printf("%s [string with alpha, num, and special chars]\n This program will identifiy each character type\n", szName);
+}
 
 void check_current_char(char c)
 {
@@ -43,5 +47,9 @@ int main (int argc, const char* argv[])
   if ( 1 < argc )
   {
     check_string(argv[1]);
+  }
+  else
+  {
+    print_usage(argv[0]);
   }
 }
