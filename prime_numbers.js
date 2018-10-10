@@ -19,9 +19,11 @@ function* range(start, stop, step = 1) {
 }
 
 function create_number_list(max) {
-    var numbers = [];
+    var numbers = new Uint32Array(parseInt(max/2));
+    var counter = 0;
     for (let i of range(1, max, 2)) {
-        numbers.push(i);
+        numbers[counter] = i;
+        counter += 1;
     }
     return numbers;
 }
