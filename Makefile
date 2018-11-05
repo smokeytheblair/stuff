@@ -1,4 +1,4 @@
-CC = clang
+CC = g++
 FLAGS = -O2 
 FILES = prime_numbers.c
 
