@@ -13,5 +13,8 @@ big_switch: big_switch.c
 sizeof_types: sizeof_types.cpp
 	$(CC) $(FLAGS) -std=c++17 sizeof_types.cpp -o sizeof_types
 
+luhn: luhn.cpp
+	$(CC) $(FLAGS) luhn.cpp -o luhn
+
 clean:
-	rm -f prime_numbers big_switch sizeof_types
+	rm -f prime_numbers big_switch sizeof_types luhn
