@@ -4,30 +4,27 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+#include <cstring>
 
 void print_usage(const char* szName)
 {
   printf("%s <max prime>\n This app will compute all the prime nubmers from 0 to <max prime>.\n", szName);
 }
 
-void create_number_list(long max, long ** numbers)
+void create_number_list(long max, unsigned char ** numbers)
 {
-  *numbers = (long*)malloc(sizeof(long) * max/2);
+  *numbers = (unsigned char*)malloc(sizeof(unsigned char) * max/2);
 
   long length = (long)max/2;
 
-  // the for loop will start at one multiple past the current prime
-  // it will walk the list of numbers by multiples of prime
-  // this logic removes the need for any if statements inside the loop
-  for (long idx = 1; idx <= length; idx++)
-  {
-    (*numbers)[idx-1] = (idx*2) - 1;
-  }
+  // everything is assumed prime until the algorithm determines otherwise
+  memset((void*)*numbers, 0x01, sizeof(unsigned char) * max/2);
 } 
 
-void zero_multiples_of_prime(long prime_index, long* numbers, long max)
+void zero_multiples_of_prime(long prime_index, unsigned char* numbers, long max)
 {
-  long prime = numbers[prime_index];
+  //only processing for odd numbers
+  long prime = (prime_index * 2) - 1;
 
   //printf("Removing multiples of %ld: ", prime);
 
@@ -35,7 +32,7 @@ void zero_multiples_of_prime(long prime_index, long* numbers, long max)
 
   for (long i=prime_index+prime; i<length; i+=prime)
   {
-    //printf("numbers[%ld] = %ld, ", i, numbers[i]);
+    //printf("numbers[%ld] = %ld, ", i, (i*2)-1);
     numbers[i] = 0;
   }
   //printf("\n");
@@ -45,7 +42,7 @@ int compute_primes(long max)
 {
   printf("Computing primes from 0 to %ld\n", max);
 
-  long * numbers = NULL;
+  unsigned char * numbers = NULL;
 
   clock_t start = clock();
   
@@ -59,7 +56,7 @@ int compute_primes(long max)
   long length = (long)(max/2);
   long half_length = (long)length/2;
 
-  for(long idx = 1; idx<half_length; idx++)
+  for(long idx = 2; idx<half_length; idx++)
   {
     if ( 0 < numbers[idx])
     {
@@ -69,18 +66,18 @@ int compute_primes(long max)
 
   // print out/count primes
   long count_primes = 0;
-  for (long i=0; i<length; i++)
+  for (long i=1; i<length; i++)
   {
     if (numbers[i] > 0)
     {
       ++count_primes;
-      //printf("%ld, ", numbers[i]);
+      //printf("%ld, ", (i*2)-1);
     }
   }
 
   clock_t finish = clock();
 
-  printf("Found %ld prime numbers out of %ld\n", count_primes, max);
+  printf("\nFound %ld prime numbers out of %ld\n", count_primes, max);
   printf("Compute time: %f seconds", ((double) finish - start)/CLOCKS_PER_SEC);
 
   // clean up
