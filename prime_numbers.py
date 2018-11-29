@@ -4,33 +4,35 @@
 
 import sys
 import math
-from numpy import arange
+import numpy as np
+# from numpy import ones, dtype, np.bool
 from datetime import *
 
 
 def print_usage(name):
     print('python3 {} <max_number>'.format(name))
 
-def create_number_list(max: int):
-    numbers = arange(1, max, 2)
+def create_boolean_list(max: int):
+    numbers = np.ones(int(max/2), dtype=np.bool)
+    numbers[1] = False
     return numbers
 
 def mark_multiples_of_prime(numbers, prime_index: int, max: int):
-    # print('Checking prime:{}'.format(prime))
-
-    prime = numbers[prime_index]
+    prime = (prime_index*2)-1
     array_length = len(numbers)
     
+    # print('Checking prime:{}'.format(prime))
+
     # the for loop will start at one multiple past the current prime
     # it will walk the list of numbers by multiples of prime
     # this logic removes the need for any if statements inside the loop
     for i in range(prime_index+prime, array_length, prime):
-        numbers[i] = 0
+        numbers[i] = False
 
 def compute_primes(max: int):
     start_time = datetime.now()
 
-    numbers = create_number_list(max)
+    numbers = create_boolean_list(max)
 
     # print('Numbers = {}'.format(numbers))
 
@@ -39,11 +41,11 @@ def compute_primes(max: int):
     half_length = int(len(numbers)/2)
 
     for index in range(int(1), half_length):
-        if (numbers[index] > 1):
-            # print('index: {}, prime: {}'.format(index, numbers[index]))
+        if (numbers[index] ==  True):
+            # print('index: {}, prime: {}'.format(index, (index*2)-1))
             mark_multiples_of_prime(numbers, index, max)
 
-    primes = [i for i in numbers if i>0]
+    primes = [i for i in numbers if i == True]
 
     mid_time = datetime.now()
 

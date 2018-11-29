@@ -10,12 +10,12 @@ function print_usage()
 end
 
 function make_array(max)
-  return collect(1:2:max)
+  return trues(Integer(max/2))
 end
 
 function remove_multiples(numbers, prime_index, max)
 
-  prime::Int64 = numbers[prime_index]
+  prime::Int64 = Int64((prime_index*2)-1)
   array_length::Int64 = length(numbers)
 
   # println("called remove_multiple(", prime_index, ") = ", prime, ", length: ", array_length)
@@ -38,7 +38,7 @@ function compute_primes(max::Int64)
 
   println("Computing primes from 0 to ", max)
 
-  half_length::Int64 = Int64(length(numbers)/2)
+  half_length::Int64 = Int64(max/4)
 
   @inbounds for i = 2:half_length
     if numbers[i] > 0
