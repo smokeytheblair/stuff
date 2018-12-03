@@ -19,19 +19,22 @@ function* range(start, stop, step = 1) {
 }
 
 function create_number_list(max) {
-    var numbers = new Uint32Array(parseInt(max/2));
+    var numbers = new Uint8Array(parseInt(max/2));
     var counter = 0;
     for (let i of range(1, max, 2)) {
-        numbers[counter] = i;
+        numbers[counter] = 1;
         counter += 1;
     }
+    
+    numbers[0] = 0;
+
     return numbers;
 }
 
 function mark_multiples_of_prime(numbers, prime_index, max) {
     // print('Checking prime:{}'.format(prime))
 
-    prime = numbers[prime_index];
+    prime = (prime_index*2)-1;
     array_length = numbers.length;
 
     // the for loop will start at one multiple past the current prime
@@ -46,30 +49,30 @@ function compute_primes(max) {
     var start_time = Date.now();
     var numbers = create_number_list(max);
 
-    console.log(`Computing primes from 0 to ${max}`);
+    // console.log(`Computing primes from 0 to ${max}`);
 
     half_length = parseInt(numbers.length / 2);
 
-    for (let index of range(1, half_length)) {
-        if (numbers[index] > 1) {
+    for (let index of range(2, half_length)) {
+        if (numbers[index] > 0) {
             mark_multiples_of_prime(numbers, index, max);
         }
     }
 
-    var primes = [];
+    var primes = 0;
     for (let i of numbers) {
         if (i > 0) {
-            primes.push(i);
+            primes += 1;
         }
     }
 
     var finish_time = Date.now();
     //console.log(primes);
 
-    console.log(`Start: ${parseInt(start_time/1000)}, Finish: ${parseInt(finish_time/1000)}`);
-    var time = (parseInt((finish_time - start_time) / 1000));
-    console.log(`Compute time: ${time} seconds.`);
-    console.log(`Found ${primes.length} prime numbers less than ${max}`);
+    // console.log(`Start: ${parseInt(start_time/1000)}, Finish: ${parseInt(finish_time/1000)}`);
+    var time = (parseInt((finish_time - start_time)));
+    console.log(`Compute time: ${time} milliseconds.`);
+    console.log(`Found ${primes} prime numbers less than ${max}`);
 }
 
 function main() {

@@ -36,7 +36,7 @@ def compute_primes(max: int):
 
     # print('Numbers = {}'.format(numbers))
 
-    print('Computing primes from 0 to {}'.format(max))
+    # print('Computing primes from 0 to {}'.format(max))
 
     half_length = int(len(numbers)/2)
 
@@ -53,7 +53,7 @@ def compute_primes(max: int):
 
     finish_time = datetime.now()
 
-    print('Start: {}, Mid: {}, Finish: {}'.format(start_time, mid_time, finish_time))
+    # print('Start: {}, Mid: {}, Finish: {}'.format(start_time, mid_time, finish_time))
     print('Compute time: {}. \nFound {} prime numbers less than {}'.format(mid_time - start_time, len(primes), max))
     # print('Print time: {}'.format(finish_time - mid_time))
 

@@ -36,7 +36,7 @@ function compute_primes(max::Int64)
   # println(numbers)
   # println("Length: ", length(numbers))
 
-  println("Computing primes from 0 to ", max)
+  # println("Computing primes from 0 to ", max)
 
   half_length::Int64 = Int64(max/4)
 
@@ -55,7 +55,7 @@ function compute_primes(max::Int64)
 
   finish_time = Dates.now()
 
-  println("Start: ", start_time, ", Mid: ", mid_time, ", Finish: ", finish_time)
+  # println("Start: ", start_time, ", Mid: ", mid_time, ", Finish: ", finish_time)
   println("Compute time: ", (mid_time - start_time))
   println("Found: ",  length(primes), " prime numbers under: ", max)
 end

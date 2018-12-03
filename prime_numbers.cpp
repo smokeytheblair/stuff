@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <cstring>
+#include <locale.h>
 
 void print_usage(const char* szName)
 {
@@ -40,7 +41,7 @@ void zero_multiples_of_prime(long prime_index, unsigned char* numbers, long max)
 
 int compute_primes(long max)
 {
-  printf("Computing primes from 0 to %ld\n", max);
+ // printf("Computing primes from 0 to %ld\n", max);
 
   unsigned char * numbers = NULL;
 
@@ -77,8 +78,8 @@ int compute_primes(long max)
 
   clock_t finish = clock();
 
-  printf("\nFound %ld prime numbers out of %ld\n", count_primes, max);
-  printf("Compute time: %f seconds", ((double) finish - start)/CLOCKS_PER_SEC);
+  printf("Found %'ld prime numbers out of %'ld\n", count_primes, max);
+  printf("Compute time: %f seconds\n", ((double) finish - start)/CLOCKS_PER_SEC);
 
   // clean up
   if (NULL != numbers)
@@ -94,6 +95,7 @@ int main(int argc, char* argv[])
 {
   if (1<argc)
   {
+    setlocale(LC_NUMERIC, "");
     compute_primes(atol(argv[1]));
   }
   else
