@@ -4,6 +4,7 @@
 #include <locale>
 #include <ctime>
 #include <experimental/random>
+#include <getopt.h>
 
 #include "deck_of_cards.h"
 
@@ -69,23 +70,65 @@ CARDS DeckOfCards::DrawCards(int num)
 
 void DeckOfCards::Shuffle()
 {
-    int shuffles = std::experimental::randint(17, 51);
-
-    for(int i=0; i<shuffles; i++)
+    auto shuffler = [=] 
     {
-        std::srand(std::time(nullptr));
-        uint32_t seed = std::rand();
-        std::shuffle(myCards.begin(), myCards.end(), std::default_random_engine(seed));
-        std::random_shuffle(myCards.begin(), myCards.end());
-    }
+        int shuffles = std::experimental::randint(17, 51);
+
+        for(int i=0; i<shuffles; i++)
+        {
+            std::srand(std::time(nullptr));
+            uint32_t seed = std::rand();
+            std::shuffle(myCards.begin(), myCards.end(), std::default_random_engine(seed));
+            std::random_shuffle(myCards.begin(), myCards.end());
+        }
+    };
+
+    shuffler();
 }
 
-int main(int arc, char* argv[])
+int main(int argc, char* argv[])
 {
+    int num_cards_to_draw = 5;
+
+    if (1 < argc)
+    {
+        static struct option long_options [] =
+        {
+            {"num-cards", required_argument, 0, 'n'}    
+        };
+
+        int option_index = 0;
+        int c;
+
+        while((c = getopt_long(argc, argv, "hn:", long_options, &option_index)) != -1)
+        {
+            switch (c)
+            {
+                case 'n':
+                    if (long_options[option_index].has_arg)
+                    {
+                        num_cards_to_draw = long_options[option_index].val;
+                        std::cout << "Being told to draw " << num_cards_to_draw << " cards." << std::endl;
+                    }
+                break;
+                case 'h':
+                case '?':
+                    std::cout << "Help message." << std::endl;
+                break;
+                default:
+                break;
+            }
+        }
+    }
+    else
+    {
+        /* code */
+    }
+    
     DeckOfCards deck;
 
     deck.Shuffle();
-    deck.PrintCards(deck.DrawCards(5));
+    deck.PrintCards(deck.DrawCards(num_cards_to_draw));
 
     return 0;
 }
