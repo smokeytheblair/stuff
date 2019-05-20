@@ -31,6 +31,7 @@ public:
     void PrintCards(CARDS cards);
     CARDS DrawCards(int num);
     void Shuffle();
+    uint16_t Size();
     
 private:
     CARDS myCards;

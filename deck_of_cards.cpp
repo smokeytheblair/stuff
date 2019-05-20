@@ -86,6 +86,11 @@ void DeckOfCards::Shuffle()
     shuffler();
 }
 
+uint16_t DeckOfCards::Size()
+{
+    return myCards.size();
+}
+
 int main(int argc, char* argv[])
 {
     int num_cards_to_draw = 5;
@@ -94,20 +99,24 @@ int main(int argc, char* argv[])
     {
         static struct option long_options [] =
         {
-            {"num-cards", required_argument, 0, 'n'}    
+            {"num-cards", required_argument, 0, 'n'},
+            {0,0,0,0}  
         };
 
         int option_index = 0;
         int c;
 
-        while((c = getopt_long(argc, argv, "hn:", long_options, &option_index)) != -1)
+        while((c = getopt_long(argc, argv, "n:", long_options, &option_index)) != -1)
         {
             switch (c)
             {
+                case 0:
+                    std::cout << "Drawing " << num_cards_to_draw << " cards." << std::endl;
+                break;
                 case 'n':
                     if (long_options[option_index].has_arg)
                     {
-                        num_cards_to_draw = long_options[option_index].val;
+                        num_cards_to_draw = std::stoi(optarg);
                         std::cout << "Being told to draw " << num_cards_to_draw << " cards." << std::endl;
                     }
                 break;
@@ -126,6 +135,12 @@ int main(int argc, char* argv[])
     }
     
     DeckOfCards deck;
+
+    if ( num_cards_to_draw > deck.Size() )
+    {
+        std::cout << "Input of cards to draw is too high. Will draw the full deck and then stop." << std::endl;
+        num_cards_to_draw = deck.Size();
+    }
 
     deck.Shuffle();
     deck.PrintCards(deck.DrawCards(num_cards_to_draw));
