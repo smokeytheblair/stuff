@@ -91,9 +91,9 @@ uint16_t DeckOfCards::Size()
     return myCards.size();
 }
 
-int main(int argc, char* argv[])
+int get_num_cards_to_draw(int argc, char* argv[])
 {
-    int num_cards_to_draw = 5;
+    int num_to_draw = 5;
 
     if (1 < argc)
     {
@@ -111,13 +111,13 @@ int main(int argc, char* argv[])
             switch (c)
             {
                 case 0:
-                    std::cout << "Drawing " << num_cards_to_draw << " cards." << std::endl;
+                    std::cout << "Drawing " << num_to_draw << " cards." << std::endl;
                 break;
                 case 'n':
                     if (long_options[option_index].has_arg)
                     {
-                        num_cards_to_draw = std::stoi(optarg);
-                        std::cout << "Being told to draw " << num_cards_to_draw << " cards." << std::endl;
+                        num_to_draw = std::stoi(optarg);
+                        std::cout << "Being told to draw " << num_to_draw << " cards." << std::endl;
                     }
                 break;
                 case 'h':
@@ -133,6 +133,13 @@ int main(int argc, char* argv[])
     {
         /* code */
     }
+
+    return (num_to_draw);
+}
+
+int main(int argc, char* argv[])
+{
+    int num_cards_to_draw = get_num_cards_to_draw(argc, argv);
     
     DeckOfCards deck;
 
