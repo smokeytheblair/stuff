@@ -27,11 +27,16 @@ public:
     DeckOfCards(const DeckOfCards&) = delete;
     ~DeckOfCards();
 
+    static void ProcessArgs(int argc, char* argv[]);
 
     void PrintCards(CARDS cards);
     CARDS DrawCards(int num);
+    Card DrawCard();
     void Shuffle();
     uint16_t Size();
+
+    static int handSize;
+    static int numPlayers;
     
 private:
     CARDS myCards;

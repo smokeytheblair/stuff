@@ -7,6 +7,8 @@
 #include <getopt.h>
 
 #include "deck_of_cards.h"
+int DeckOfCards::handSize = 5;
+int DeckOfCards::numPlayers = 1;
 
 DeckOfCards::DeckOfCards()
 {
@@ -55,15 +57,27 @@ void DeckOfCards::PrintCards(CARDS cards)
     std::cout << std::endl;
 }
 
+Card DeckOfCards::DrawCard()
+{
+    return (DrawCards(1)[0]);
+}
+
 CARDS DeckOfCards::DrawCards(int num)
 {
     std::wcout << L"Drawing " << num << L" cards." << std::endl;
 
     CARDS hand;
 
-    hand.insert(hand.begin(), myCards.begin(), myCards.begin() + num);
+    if (myCards.size() < num)
+    {
+        num = myCards.size();
+    }
 
-    std::wcout << L"Return hand of " << hand.size() << L" cards." << std::endl;
+    hand.insert(hand.begin(), myCards.begin(), myCards.begin() + num);
+    myCards.erase(myCards.begin(), myCards.begin()+num);
+
+    std::cout << "Returning  " << hand.size() << " cards." << std::endl;
+    std::cout << "Deck has " << Size() << " remaining." << std::endl;
 
     return hand;
 }
@@ -91,15 +105,14 @@ uint16_t DeckOfCards::Size()
     return myCards.size();
 }
 
-int get_num_cards_to_draw(int argc, char* argv[])
+ void DeckOfCards::ProcessArgs(int argc, char* argv[])
 {
-    int num_to_draw = 5;
-
-    if (1 < argc)
+     if (1 < argc)
     {
         static struct option long_options [] =
         {
             {"num-cards", required_argument, 0, 'n'},
+            {"players", required_argument, 0, 'p'},
             {0,0,0,0}  
         };
 
@@ -111,13 +124,21 @@ int get_num_cards_to_draw(int argc, char* argv[])
             switch (c)
             {
                 case 0:
-                    std::cout << "Drawing " << num_to_draw << " cards." << std::endl;
+                    std::cout << "Drawing " << DeckOfCards::handSize << " cards." << std::endl;
                 break;
                 case 'n':
                     if (long_options[option_index].has_arg)
                     {
-                        num_to_draw = std::stoi(optarg);
-                        std::cout << "Being told to draw " << num_to_draw << " cards." << std::endl;
+                        DeckOfCards::handSize = std::stoi(optarg);
+                        std::cout << "Being told to draw " << DeckOfCards::handSize << " cards." << std::endl;
+                    }
+
+                break;
+                case 'p':
+                    if (long_options[option_index].has_arg)
+                    {
+                        DeckOfCards::numPlayers = std::stoi(optarg);
+                        std::cout << "There are " << DeckOfCards::numPlayers << " players." << std::endl;
                     }
                 break;
                 case 'h':
@@ -134,23 +155,36 @@ int get_num_cards_to_draw(int argc, char* argv[])
         /* code */
     }
 
-    return (num_to_draw);
+    return;
 }
 
 int main(int argc, char* argv[])
 {
-    int num_cards_to_draw = get_num_cards_to_draw(argc, argv);
-    
+    DeckOfCards::ProcessArgs(argc, argv);
+
     DeckOfCards deck;
 
-    if ( num_cards_to_draw > deck.Size() )
-    {
-        std::cout << "Input of cards to draw is too high. Will draw the full deck and then stop." << std::endl;
-        num_cards_to_draw = deck.Size();
-    }
-
     deck.Shuffle();
-    deck.PrintCards(deck.DrawCards(num_cards_to_draw));
+    std::deque<CARDS> hands(DeckOfCards::numPlayers);
+
+    for (int i; i<DeckOfCards::handSize; i++)
+    {
+        for (std::deque<CARDS>::iterator it=hands.begin(); 
+             it != hands.end();
+             it++
+            )    
+            {
+                (*it).push_back(deck.DrawCard());
+            }
+    } 
+
+    for (std::deque<CARDS>::iterator it=hands.begin(); 
+            it != hands.end();
+            it++
+        )    
+        {
+            deck.PrintCards((*it));
+        }
 
     return 0;
 }
