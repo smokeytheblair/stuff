@@ -19,10 +19,10 @@ DeckOfCards::DeckOfCards()
     // std::locale::global(std::locale("en_US.UTF-8"));
     // std::wcout.imbue(std::locale());
 
-    std::wcout  << L"Building a deck of cards.\n"
-                << L"Suits: " << num_suits << L"\n"
-                << L"Values: " << num_values
-                << std::endl;
+    // std::wcout  << L"Building a deck of cards.\n"
+    //             << L"Suits: " << num_suits << L"\n"
+    //             << L"Values: " << num_values
+    //             << std::endl;
 
     for( int i=0; i<num_suits; i++)
     {
@@ -39,7 +39,7 @@ DeckOfCards::DeckOfCards()
         }
     }
 
-    std::wcout << L"Deck has " << myCards.size() << std::endl;   
+    // std::wcout << L"Deck has " << myCards.size() << std::endl;   
 }
 
 DeckOfCards::~DeckOfCards()
@@ -64,7 +64,7 @@ Card DeckOfCards::DrawCard()
 
 CARDS DeckOfCards::DrawCards(int num)
 {
-    std::wcout << L"Drawing " << num << L" cards." << std::endl;
+    // std::wcout << L"Drawing " << num << L" cards." << std::endl;
 
     CARDS hand;
 
@@ -76,8 +76,8 @@ CARDS DeckOfCards::DrawCards(int num)
     hand.insert(hand.begin(), myCards.begin(), myCards.begin() + num);
     myCards.erase(myCards.begin(), myCards.begin()+num);
 
-    std::cout << "Returning  " << hand.size() << " cards." << std::endl;
-    std::cout << "Deck has " << Size() << " remaining." << std::endl;
+    // std::cout << "Returning  " << hand.size() << " cards." << std::endl;
+    // std::cout << "Deck has " << Size() << " remaining." << std::endl;
 
     return hand;
 }
@@ -178,11 +178,13 @@ int main(int argc, char* argv[])
             }
     } 
 
+    int player_num = 1;
     for (std::deque<CARDS>::iterator it=hands.begin(); 
             it != hands.end();
             it++
         )    
         {
+            std::cout << "Player " << player_num++ << ": ";
             deck.PrintCards((*it));
         }
 
