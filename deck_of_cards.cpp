@@ -7,6 +7,8 @@
 #include <getopt.h>
 
 #include "deck_of_cards.h"
+#include "poker_player.h"
+
 int DeckOfCards::handSize = 5;
 int DeckOfCards::numPlayers = 1;
 
@@ -14,10 +16,6 @@ DeckOfCards::DeckOfCards()
 {
     uint16_t num_suits = sizeof(SUITS)/sizeof(std::string);
     uint16_t num_values = sizeof(VALUES)/sizeof(std::string);
-
-    // std::wcout << L"User-preferred locale setting is " << std::locale("").name().c_str() << std::endl;
-    // std::locale::global(std::locale("en_US.UTF-8"));
-    // std::wcout.imbue(std::locale());
 
     // std::wcout  << L"Building a deck of cards.\n"
     //             << L"Suits: " << num_suits << L"\n"
@@ -49,10 +47,9 @@ DeckOfCards::~DeckOfCards()
 
 void DeckOfCards::PrintCards(CARDS cards)
 {
-    for (CARDS::iterator i = cards.begin(); i != cards.end(); i++)
+    for (Card card : cards)
     {
-        Card* card = &(*i);
-        std::cout << card->Value << card->Suit << " ";
+        std::cout << card.Value << card.Suit << " ";
     }
     std::cout << std::endl;
 }
@@ -165,28 +162,32 @@ int main(int argc, char* argv[])
     DeckOfCards deck;
 
     deck.Shuffle();
-    std::deque<CARDS> hands(DeckOfCards::numPlayers);
+    std::deque<PokerPlayer> players;
+
+    for (size_t i=1; i<=DeckOfCards::numPlayers; i++)
+    {
+        PokerPlayer player("Player " + std::to_string(i), i);
+        players.push_back(player);
+
+        std::cout << "Added " << player.GetName() << std::endl;
+    }
 
     for (int i; i<DeckOfCards::handSize; i++)
     {
-        for (std::deque<CARDS>::iterator it=hands.begin(); 
-             it != hands.end();
-             it++
-            )    
-            {
-                (*it).push_back(deck.DrawCard());
-            }
+        for (PokerPlayer& player : players)    
+        {
+            Card card = deck.DrawCard();
+            // std::cout << "Drawing card: " << card.Value << card.Suit << std::endl;
+
+            player.ReceiveCard(card);
+        }
     } 
 
     int player_num = 1;
-    for (std::deque<CARDS>::iterator it=hands.begin(); 
-            it != hands.end();
-            it++
-        )    
-        {
-            std::cout << "Player " << player_num++ << ": ";
-            deck.PrintCards((*it));
-        }
+    for (PokerPlayer player : players)   
+    {
+        std::cout << player.GetName() << ": " << player.HandToString() << std::endl;
+    }
 
     return 0;
 }

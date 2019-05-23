@@ -1,4 +1,6 @@
-#pragma once
+#ifndef DECK_OF_CARDS_H
+#define DECK_OF_CARDS_H
+
 #include <iostream>
 #include <string>
 #include <deque>
@@ -12,7 +14,8 @@ struct Card
     {
         std::string cardName;
         cardName += Value + Suit;
-        return (Value);
+        //std::cout << "Printing: " << Value << Suit << " as " << cardName << std::endl;
+        return (cardName);
     }
 };
 
@@ -41,3 +44,5 @@ public:
 private:
     CARDS myCards;
 };
+
+#endif //DECK_OF_CARDS_H
