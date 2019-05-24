@@ -43,6 +43,8 @@ public:
     CARDS GetHand() {return(playerHand);}
     std::string HandToString();
 
+    static std::string HandNameToString(PokerHand hand);
+
 private:
    static float IsNothing(CARDS&);
    static float IsPair(CARDS&);

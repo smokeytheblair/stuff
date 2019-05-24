@@ -12,19 +12,31 @@
 int DeckOfCards::handSize = 5;
 int DeckOfCards::numPlayers = 1;
 
+uint16_t DeckOfCards::NUM_SUITS = sizeof(SUITS)/sizeof(std::string);
+uint16_t DeckOfCards::NUM_VALUES = sizeof(VALUES)/sizeof(std::string);
+int      DeckOfCards::INCLUDE_JOKERS = false;
+
 DeckOfCards::DeckOfCards()
 {
-    uint16_t num_suits = sizeof(SUITS)/sizeof(std::string);
-    uint16_t num_values = sizeof(VALUES)/sizeof(std::string);
 
     // std::wcout  << L"Building a deck of cards.\n"
-    //             << L"Suits: " << num_suits << L"\n"
-    //             << L"Values: " << num_values
+    //             << L"Suits: " << NUM_SUITS << L"\n"
+    //             << L"Values: " << NUM_VALUES
     //             << std::endl;
 
-    for( int i=0; i<num_suits; i++)
+    if (0 < INCLUDE_JOKERS)
     {
-        for( int j=0; j<num_values; j++)
+        Card card;
+        card.Value = JOKERS[0];
+        myCards.push_back(card);
+
+        card.Value = JOKERS[1];
+        myCards.push_back(card);
+    }
+
+    for( int i=0; i<NUM_SUITS; i++)
+    {
+        for( int j=0; j<NUM_VALUES; j++)
         {
             // std::cout << VALUES[j] << SUITS[i] << std::endl;
 
@@ -110,6 +122,7 @@ uint16_t DeckOfCards::Size()
         {
             {"num-cards", required_argument, 0, 'n'},
             {"players", required_argument, 0, 'p'},
+            {"jokers", no_argument, &DeckOfCards::INCLUDE_JOKERS, 'j'},
             {0,0,0,0}  
         };
 
@@ -121,7 +134,10 @@ uint16_t DeckOfCards::Size()
             switch (c)
             {
                 case 0:
-                    std::cout << "Drawing " << DeckOfCards::handSize << " cards." << std::endl;
+                    if (0 < DeckOfCards::INCLUDE_JOKERS)
+                    {
+                        std::cout << "Including Jokers." << std::endl;
+                    }
                 break;
                 case 'n':
                     if (long_options[option_index].has_arg)
@@ -169,7 +185,7 @@ int main(int argc, char* argv[])
         PokerPlayer player("Player " + std::to_string(i), i);
         players.push_back(player);
 
-        std::cout << "Added " << player.GetName() << std::endl;
+        // std::cout << "Added " << player.GetName() << std::endl;
     }
 
     for (int i; i<DeckOfCards::handSize; i++)
@@ -184,9 +200,10 @@ int main(int argc, char* argv[])
     } 
 
     int player_num = 1;
-    for (PokerPlayer player : players)   
+    for (PokerPlayer& player : players)   
     {
-        std::cout << player.GetName() << ": " << player.HandToString() << std::endl;
+        std::cout << player.GetName() << ": " << player.HandToString()// << std::endl;
+                  << " \t: " << PokerPlayer::HandNameToString(player.EvaluateHand()) << std::endl;
     }
 
     return 0;
