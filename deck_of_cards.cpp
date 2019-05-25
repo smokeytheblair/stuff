@@ -11,6 +11,7 @@
 
 int DeckOfCards::handSize = 5;
 int DeckOfCards::numPlayers = 1;
+int DeckOfCards::numDecks = 1;
 
 uint16_t DeckOfCards::NUM_SUITS = sizeof(SUITS)/sizeof(std::string);
 uint16_t DeckOfCards::NUM_VALUES = sizeof(VALUES)/sizeof(std::string);
@@ -24,32 +25,36 @@ DeckOfCards::DeckOfCards()
     //             << L"Values: " << NUM_VALUES
     //             << std::endl;
 
-    if (0 < INCLUDE_JOKERS)
-    {
-        Card card;
-        card.Value = JOKERS[0];
-        myCards.push_back(card);
 
-        card.Value = JOKERS[1];
-        myCards.push_back(card);
-    }
 
-    for( int i=0; i<NUM_SUITS; i++)
+    for (int num_decks = 0; num_decks<DeckOfCards::numDecks; num_decks++)
     {
-        for( int j=0; j<NUM_VALUES; j++)
+        if (0 < INCLUDE_JOKERS)
         {
-            // std::cout << VALUES[j] << SUITS[i] << std::endl;
-
             Card card;
-            card.Suit = SUITS[i];
-            card.Value = VALUES[j];
-            // std::cout << "Adding card: " << card.Value << card.Suit << std::endl;
+            card.Value = JOKERS[0];
+            myCards.push_back(card);
 
+            card.Value = JOKERS[1];
             myCards.push_back(card);
         }
-    }
 
-    // std::wcout << L"Deck has " << myCards.size() << std::endl;   
+        for( int i=0; i<NUM_SUITS; i++)
+        {
+            for( int j=0; j<NUM_VALUES; j++)
+            {
+                // std::cout << VALUES[j] << SUITS[i] << std::endl;
+
+                Card card;
+                card.Suit = SUITS[i];
+                card.Value = VALUES[j];
+                // std::cout << "Adding card: " << card.Value << card.Suit << std::endl;
+
+                myCards.push_back(card);
+            }
+        }
+    }
+    std::wcout << L"Deck has " << myCards.size() << std::endl;   
 }
 
 DeckOfCards::~DeckOfCards()
@@ -121,6 +126,7 @@ uint16_t DeckOfCards::Size()
         static struct option long_options [] =
         {
             {"num-cards", required_argument, 0, 'n'},
+            {"decks", required_argument, 0, 'd'},
             {"players", required_argument, 0, 'p'},
             {"jokers", no_argument, &DeckOfCards::INCLUDE_JOKERS, 'j'},
             {0,0,0,0}  
@@ -137,6 +143,13 @@ uint16_t DeckOfCards::Size()
                     if (0 < DeckOfCards::INCLUDE_JOKERS)
                     {
                         std::cout << "Including Jokers." << std::endl;
+                    }
+                break;
+                case 'd':
+                    if (long_options[option_index].has_arg)
+                    {
+                        DeckOfCards::numDecks = std::stoi(optarg);
+                        std::cout << "Using " << DeckOfCards::numDecks << " deck(s)." << std::endl;
                     }
                 break;
                 case 'n':

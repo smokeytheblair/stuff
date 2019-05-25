@@ -66,6 +66,7 @@ public:
 
     static int handSize;
     static int numPlayers;
+    static int numDecks;
 
     static uint16_t NUM_SUITS;
     static uint16_t NUM_VALUES;
