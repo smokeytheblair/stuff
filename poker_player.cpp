@@ -57,12 +57,15 @@ PokerPlayer::PokerHand PokerPlayer::EvaluateHand()
     hand_results[STRAIGHT]          = IsStraight(this->playerHand);
     hand_results[FLUSH]             = IsFlush(this->playerHand);
     hand_results[FULL_HOUSE]        = IsFullHouse(this->playerHand);
+    hand_results[STRAIGHT_FLUSH]    = IsStraightFlush(this->playerHand);
+    hand_results[ROYAL_FLUSH]       = IsRoyalFlush(this->playerHand);
+    hand_results[FIVE_OF_A_KIND]    = IsFiveOfaKind(this->playerHand);
 
     for (std::map<PokerHand, float>::iterator it = hand_results.begin();
          it != hand_results.end();
          it++)
     {
-        // std::cout << "Hand score[" << (*it).first << "] = " << (*it).second << std::endl;
+        // std::cout << "Hand score[" << HandNameToString((*it).first) << "] = " << (*it).second << std::endl;
 
         if (1.0 == (*it).second)
         {
@@ -135,7 +138,7 @@ std::string PokerPlayer::HandNameToString(PokerHand hand)
         case PokerHand::FOUR_OF_A_KIND:
             name = "Four of a Kind";
             break;
-        case PokerHand::STRAIGH_FLUSH:
+        case PokerHand::STRAIGHT_FLUSH:
             name = "Straight Flush";
             break;
         case PokerHand::ROYAL_FLUSH:
@@ -244,7 +247,7 @@ float PokerPlayer::IsStraight(CARDS& hand)
     }
 
     size_t num_in_sequence = 0;
-    for (size_t i=0; i<DeckOfCards::NUM_VALUES; i++)
+    for (size_t i=0; i<DeckOfCards::NUM_VALUES && 5 > num_in_sequence; i++)
     {
         std::string value = VALUES[i];
         size_t value_count = value_counts[value];
@@ -255,12 +258,17 @@ float PokerPlayer::IsStraight(CARDS& hand)
         {
             case 0:
                 num_in_sequence = 0;
+                // std::cout << "num_in_sequence = " << num_in_sequence << std::endl;
                 break;
             case 1:
                 ++num_in_sequence;
+                // std::cout << "num_in_sequence = " << num_in_sequence << std::endl;
+                break;
                 break;
             default:
                 num_in_sequence = 0;
+                // std::cout << "num_in_sequence = " << num_in_sequence << std::endl;
+                break;
                 break;
         }
     }
@@ -383,6 +391,7 @@ float PokerPlayer::IsRoyalFlush(CARDS& hand)
         if (VALUES[ACE] == card.Value)
         {
             confidence += 0.5;
+            break;
         }
     }
 

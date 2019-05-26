@@ -27,7 +27,7 @@ public:
         FLUSH,
         FULL_HOUSE,
         FOUR_OF_A_KIND,
-        STRAIGH_FLUSH,
+        STRAIGHT_FLUSH,
         ROYAL_FLUSH,
         FIVE_OF_A_KIND
     };
@@ -39,7 +39,7 @@ public:
     CARDS ReturnCardsToDealer();
 
     std::string GetName() {return (playerName);}
-    size_t GetPlayerNumer() {return(playerNumber);}
+    size_t GetPlayerNumber() {return(playerNumber);}
     CARDS GetHand() {return(playerHand);}
     std::string HandToString();
 
