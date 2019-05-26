@@ -264,11 +264,9 @@ float PokerPlayer::IsStraight(CARDS& hand)
                 ++num_in_sequence;
                 // std::cout << "num_in_sequence = " << num_in_sequence << std::endl;
                 break;
-                break;
             default:
                 num_in_sequence = 0;
                 // std::cout << "num_in_sequence = " << num_in_sequence << std::endl;
-                break;
                 break;
         }
     }
