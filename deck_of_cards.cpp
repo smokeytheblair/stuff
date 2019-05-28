@@ -119,7 +119,7 @@ uint16_t DeckOfCards::Size()
     return myCards.size();
 }
 
- void DeckOfCards::ProcessArgs(int argc, char* argv[])
+void DeckOfCards::ProcessArgs(int argc, char* argv[])
 {
      if (1 < argc)
     {
@@ -200,6 +200,26 @@ int main(int argc, char* argv[])
 
         // std::cout << "Added " << player.GetName() << std::endl;
     }
+/*    
+    CARDS hand;
+
+    Card card;
+    card.Suit = SUITS[SPADES];
+    card.Value = VALUES[SIX];
+    hand.push_back(card);
+
+    card.Value = VALUES[FIVE];
+    hand.push_back(card);
+
+    card.Value = VALUES[SEVEN];
+    hand.push_back(card);
+
+    card.Value = VALUES[EIGHT];
+    hand.push_back(card);
+
+    card.Value = VALUES[NINE];
+    hand.push_back(card);
+*/
 
     for (int i; i<DeckOfCards::handSize; i++)
     {
@@ -208,7 +228,15 @@ int main(int argc, char* argv[])
             Card card = deck.DrawCard();
             // std::cout << "Drawing card: " << card.Value << card.Suit << std::endl;
 
-            player.ReceiveCard(card);
+/*          if (1 == player.GetPlayerNumber())
+            {
+              player.ReceiveCard(hand.front());
+              hand.pop_front();
+            }
+            else
+*/          {            
+              player.ReceiveCard(card);
+            }
         }
     } 
 

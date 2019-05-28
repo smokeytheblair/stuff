@@ -246,8 +246,7 @@ float PokerPlayer::IsStraight(CARDS& hand)
         value_counts[card.Value] += 1;
     }
 
-    size_t num_in_sequence = 0;
-    for (size_t i=0; i<DeckOfCards::NUM_VALUES && 5 > num_in_sequence; i++)
+    for (size_t i=0; i<DeckOfCards::NUM_VALUES && 1.0 != confidence; i++)
     {
         std::string value = VALUES[i];
         size_t value_count = value_counts[value];
@@ -257,21 +256,17 @@ float PokerPlayer::IsStraight(CARDS& hand)
         switch (value_count)
         {
             case 0:
-                num_in_sequence = 0;
-                // std::cout << "num_in_sequence = " << num_in_sequence << std::endl;
+                confidence = 0.0;
                 break;
             case 1:
-                ++num_in_sequence;
-                // std::cout << "num_in_sequence = " << num_in_sequence << std::endl;
+                confidence += 0.2;
+                // std::cout << "confidence = " << confidence << std::endl;
                 break;
             default:
-                num_in_sequence = 0;
-                // std::cout << "num_in_sequence = " << num_in_sequence << std::endl;
+                confidence = 0.0;
                 break;
         }
     }
-
-    confidence = 0.2 * num_in_sequence;
 
     return (confidence);
 }
