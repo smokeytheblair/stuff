@@ -25,54 +25,39 @@ PokerPlayer::Action PokerPlayer::DeterminePlayerAction()
 PokerPlayer::PokerHand PokerPlayer::EvaluateHand()
 {
     std::map<PokerHand, std::future<float> > futures;
-    std::map<PokerHand, float> hand_results;
+    float hand_results[11] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 
     PokerHand highestHand = PokerHand::NOTHING;
 
-    // futures[NOTHING] = (std::async(std::launch::async, [=]{return IsNothing(this->playerHand);}));
-    // futures[PAIR] = (std::async(std::launch::async, [=]{return IsPair(this->playerHand);}));
-    // futures[TWO_PAIR] = (std::async(std::launch::async, [=]{return IsTwoPairs(this->playerHand);}));
-    // futures[THREE_OF_A_KIND] = (std::async(std::launch::async, [=]{return IsThreeOfaKind(this->playerHand);}));
-    // futures[STRAIGHT] = (std::async(std::launch::async, [=]{return IsStraight(this->playerHand);}));
-    // futures[FLUSH] = (std::async(std::launch::async, [=]{return IsFlush(this->playerHand);}));
-    // futures[FULL_HOUSE] = (std::async(std::launch::async, [=]{return IsFullHouse(this->playerHand);}));
+    futures[NOTHING] = (std::async(std::launch::async, [=]{return IsNothing();}));
+    futures[PAIR] = (std::async(std::launch::async, [=]{return IsPair();}));
+    futures[TWO_PAIR] = (std::async(std::launch::async, [=]{return IsTwoPairs();}));
+    futures[THREE_OF_A_KIND] = (std::async(std::launch::async, [=]{return IsThreeOfaKind();}));
+    futures[STRAIGHT] = (std::async(std::launch::async, [=]{return IsStraight();}));
+    futures[FLUSH] = (std::async(std::launch::async, [=]{return IsFlush();}));
+    futures[FULL_HOUSE] = (std::async(std::launch::async, [=]{return IsFullHouse();}));
+    futures[FOUR_OF_A_KIND] = (std::async(std::launch::async, [=]{return IsFourOfaKind();}));
+    futures[STRAIGHT_FLUSH] = (std::async(std::launch::async, [=]{return IsStraightFlush();}));
+    futures[ROYAL_FLUSH] = (std::async(std::launch::async, [=]{return IsRoyalFlush();}));
+    futures[FIVE_OF_A_KIND] = (std::async(std::launch::async, [=]{return IsFiveOfaKind();}));
 
-    // for (std::map<PokerHand, std::future<float> >::iterator it = futures.begin();
-    //     it != futures.end();
-    //     it++)
-    // {
-    //     (*it).second.wait();
-    //     hand_results[(*it).first] = (*it).second.get();
+    // std::cout << "Is<HAND> functions have been started." << std::endl;
 
-    //     if (1.0 == (*it).second.get())
-    //     {
-    //         highestHand = (*it).first;
-    //     }
-    // }    
-    
-    hand_results[NOTHING]           = IsNothing(this->playerHand);
-    hand_results[PAIR]              = IsPair(this->playerHand);
-    hand_results[TWO_PAIR]          = IsTwoPairs(this->playerHand);
-    hand_results[THREE_OF_A_KIND]   = IsThreeOfaKind(this->playerHand);
-    hand_results[STRAIGHT]          = IsStraight(this->playerHand);
-    hand_results[FLUSH]             = IsFlush(this->playerHand);
-    hand_results[FULL_HOUSE]        = IsFullHouse(this->playerHand);
-    hand_results[STRAIGHT_FLUSH]    = IsStraightFlush(this->playerHand);
-    hand_results[ROYAL_FLUSH]       = IsRoyalFlush(this->playerHand);
-    hand_results[FIVE_OF_A_KIND]    = IsFiveOfaKind(this->playerHand);
-
-    for (std::map<PokerHand, float>::iterator it = hand_results.begin();
-         it != hand_results.end();
-         it++)
+    for (std::map<PokerHand, std::future<float> >::iterator it = futures.begin();
+        it != futures.end();
+        it++)
     {
-        // std::cout << "Hand score[" << HandNameToString((*it).first) << "] = " << (*it).second << std::endl;
+        (*it).second.wait();
 
-        if (1.0 == (*it).second)
+        hand_results[(*it).first] = (*it).second.get();
+        // std::cout << "Hand score[" << HandNameToString((*it).first) << "] = " << hand_results[(*it).first] << std::endl;
+
+        if (1.0 == hand_results[(*it).first])
         {
             highestHand = (*it).first;
-        }       
-    }
-
+        }
+    }    
+    
     return (highestHand);
 }
 
@@ -156,19 +141,19 @@ std::string PokerPlayer::HandNameToString(PokerHand hand)
     return (name);
 }
 
-float PokerPlayer::IsNothing(CARDS& hand)
+float PokerPlayer::IsNothing()
 {
     float confidence = 1.0;
     return (confidence);
 }
 
-float PokerPlayer::IsPair(CARDS& hand)
+float PokerPlayer::IsPair()
 {
     float confidence = 0.0;
 
     std::map<std::string, size_t> value_counts;
 
-    for (Card& card : hand)
+    for (Card& card : playerHand)
     {
         value_counts[card.Value] += 1;
     }
@@ -185,13 +170,13 @@ float PokerPlayer::IsPair(CARDS& hand)
     return (confidence);
 }
 
-float PokerPlayer::IsTwoPairs(CARDS& hand)
+float PokerPlayer::IsTwoPairs()
 {
     float confidence = 0.0;
 
     std::map<std::string, size_t> value_counts;
 
-    for (Card& card : hand)
+    for (Card& card : playerHand)
     {
         value_counts[card.Value] += 1;
     }
@@ -208,13 +193,13 @@ float PokerPlayer::IsTwoPairs(CARDS& hand)
     return (confidence);
 }
 
-float PokerPlayer::IsThreeOfaKind(CARDS& hand)
+float PokerPlayer::IsThreeOfaKind()
 {
     float confidence = 0.0;
  
     std::map<std::string, size_t> value_counts;
 
-    for (Card& card : hand)
+    for (Card& card : playerHand)
     {
         value_counts[card.Value] += 1;
     }
@@ -231,9 +216,10 @@ float PokerPlayer::IsThreeOfaKind(CARDS& hand)
     return (confidence);
 }
 
-float PokerPlayer::IsStraight(CARDS& hand)
+float PokerPlayer::IsStraight()
 {
     float confidence = 0.0;
+    float highest_confidence = 0.0;
  
     std::map<std::string, size_t> value_counts;
 
@@ -241,7 +227,7 @@ float PokerPlayer::IsStraight(CARDS& hand)
     {
         value_counts[VALUES[i]] = 0;
     }
-    for (Card& card : hand)
+    for (Card& card : playerHand)
     {
         value_counts[card.Value] += 1;
     }
@@ -260,6 +246,7 @@ float PokerPlayer::IsStraight(CARDS& hand)
                 break;
             case 1:
                 confidence += 0.2;
+                highest_confidence = confidence;
                 // std::cout << "confidence = " << confidence << std::endl;
                 break;
             default:
@@ -268,16 +255,16 @@ float PokerPlayer::IsStraight(CARDS& hand)
         }
     }
 
-    return (confidence);
+    return (highest_confidence);
 }
 
-float PokerPlayer::IsFlush(CARDS& hand)
+float PokerPlayer::IsFlush()
 {
     float confidence = 0.0;
  
     std::map<std::string, size_t> suit_counts;
 
-    for (Card& card : hand)
+    for (Card& card : playerHand)
     {
         suit_counts[card.Suit] += 1;
     }
@@ -298,13 +285,13 @@ float PokerPlayer::IsFlush(CARDS& hand)
     return (confidence);
 }
 
-float PokerPlayer::IsFullHouse(CARDS& hand)
+float PokerPlayer::IsFullHouse()
 {
     float confidence = 0.0;
  
     std::map<std::string, size_t> value_counts;
 
-    for (Card& card : hand)
+    for (Card& card : playerHand)
     {
         value_counts[card.Value] += 1;
     }
@@ -329,13 +316,13 @@ float PokerPlayer::IsFullHouse(CARDS& hand)
     return (confidence);
 }
 
-float PokerPlayer::IsFourOfaKind(CARDS& hand)
+float PokerPlayer::IsFourOfaKind()
 {
     float confidence = 0.0;
  
     std::map<std::string, size_t> value_counts;
 
-    for (Card& card : hand)
+    for (Card& card : playerHand)
     {
         value_counts[card.Value] += 1;
     }
@@ -353,16 +340,16 @@ float PokerPlayer::IsFourOfaKind(CARDS& hand)
     return (confidence);
 }
 
-float PokerPlayer::IsStraightFlush(CARDS& hand)
+float PokerPlayer::IsStraightFlush()
 {
     float confidence = 0.0;
 
-    if (1.0 == IsStraight(hand))
+    if (1.0 == IsStraight())
     {
         confidence += 0.5;
     }
 
-    if (1.0 == IsFlush(hand))
+    if (1.0 == IsFlush())
     {
         confidence += 0.5;
     }
@@ -370,34 +357,34 @@ float PokerPlayer::IsStraightFlush(CARDS& hand)
     return (confidence);
 }
 
-float PokerPlayer::IsRoyalFlush(CARDS& hand)
+float PokerPlayer::IsRoyalFlush()
 {
     float confidence = 0.0;
 
-    if (1.0 == IsStraightFlush(hand))
+    if (1.0 == IsStraightFlush())
     {
         confidence += 0.5;
-    }
 
-    for (Card& card : hand)
-    {
-        if (VALUES[ACE] == card.Value)
+        for (Card& card : playerHand)
         {
-            confidence += 0.5;
-            break;
+            if (VALUES[ACE] == card.Value)
+            {
+                confidence += 0.5;
+                break;
+            }
         }
     }
 
     return (confidence);
 }
 
-float PokerPlayer::IsFiveOfaKind(CARDS& hand)
+float PokerPlayer::IsFiveOfaKind()
 {
     float confidence = 0.0;
  
     std::map<std::string, size_t> value_counts;
 
-    for (Card& card : hand)
+    for (Card& card : playerHand)
     {
         value_counts[card.Value] += 1;
     }

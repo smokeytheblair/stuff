@@ -3,6 +3,7 @@
 
 #include <string>
 #include <deque>
+#include <map>
 #include "deck_of_cards.h"
 
 class PokerPlayer
@@ -46,22 +47,23 @@ public:
     static std::string HandNameToString(PokerHand hand);
 
 private:
-   static float IsNothing(CARDS&);
-   static float IsPair(CARDS&);
-   static float IsTwoPairs(CARDS&);
-   static float IsThreeOfaKind(CARDS&);
-   static float IsStraight(CARDS&);
-   static float IsFlush(CARDS&);
-   static float IsFullHouse(CARDS&);
-   static float IsFourOfaKind(CARDS&);
-   static float IsStraightFlush(CARDS&);
-   static float IsRoyalFlush(CARDS&);
-   static float IsFiveOfaKind(CARDS&);
+   float IsNothing();
+   float IsPair();
+   float IsTwoPairs();
+   float IsThreeOfaKind();
+   float IsStraight();
+   float IsFlush();
+   float IsFullHouse();
+   float IsFourOfaKind();
+   float IsStraightFlush();
+   float IsRoyalFlush();
+   float IsFiveOfaKind();
 
 
     CARDS playerHand;
     size_t playerNumber;
     std::string playerName;
+    std::map<PokerHand, float> hand_results;
 };
 
 #endif //POKER_PLAYER_H
