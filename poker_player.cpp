@@ -246,7 +246,10 @@ float PokerPlayer::IsStraight()
                 break;
             case 1:
                 confidence += 0.2;
-                highest_confidence = confidence;
+                if (confidence > highest_confidence)
+                {
+                    highest_confidence = confidence;
+                }
                 // std::cout << "confidence = " << confidence << std::endl;
                 break;
             default:
