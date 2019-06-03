@@ -2,7 +2,7 @@ CC = g++-9
 FLAGS = -std=c++17 
 FILES = prime_numbers.cpp
 
-all: prime_numbers big_switch sizeof_types poker
+all: prime_numbers big_switch sizeof_types
 
 prime_numbers: $(FILES)
 	$(CC) $(FLAGS) $(FILES) -o prime_numbers
@@ -12,9 +12,6 @@ big_switch: big_switch.cpp
 	
 sizeof_types: sizeof_types.cpp
 	$(CC) $(FLAGS) sizeof_types.cpp -o sizeof_types
-
-poker: deck_of_cards.cpp deck_of_cards.h poker_player.cpp poker_player.h
-	$(CC) $(FLAGS) deck_of_cards.cpp poker_player.cpp -o poker
 
 luhn: luhn.cpp
 	$(CC) $(FLAGS) luhn.cpp -o luhn
