@@ -5,8 +5,15 @@
 #include <getopt.h>
 #include <deque>
 
+int PokerDealer::handSize = 5;
+int PokerDealer::numPlayers = 1;
+int PokerDealer::numDecks = 1;
+int PokerDealer::INCLUDE_JOKERS = 0;
 
-PokerDealer::PokerDealer()
+
+PokerDealer::PokerDealer(DeckOfCards& newDeck, std::deque<PokerPlayer>& newPlayers)
+    : deck(newDeck),
+      players(newPlayers)
 {
 
 }
@@ -14,6 +21,24 @@ PokerDealer::PokerDealer()
 PokerDealer::~PokerDealer()
 {
 
+}
+
+Card PokerDealer::DealCard()
+{
+    return (deck.DrawCard());
+}
+
+void PokerDealer::DealCards()
+{
+    // std::cout << "Dealing " << PokerDealer::handSize << " cards to " << players.size() << " players." << std::endl;
+
+    for (int i=0; i<PokerDealer::handSize; i++)
+    {
+        for (PokerPlayer& player : players)    
+        {
+            player.ReceiveCard(deck.DrawCard());
+        }
+    } 
 }
 
 void PokerDealer::ProcessArgs(int argc, char* argv[])
@@ -25,7 +50,7 @@ void PokerDealer::ProcessArgs(int argc, char* argv[])
             {"num-cards", required_argument, 0, 'n'},
             {"decks", required_argument, 0, 'd'},
             {"players", required_argument, 0, 'p'},
-            {"jokers", no_argument, &DeckOfCards::INCLUDE_JOKERS, 'j'},
+            {"jokers", no_argument, &PokerDealer::INCLUDE_JOKERS, 'j'},
             {0,0,0,0}  
         };
 
@@ -37,7 +62,7 @@ void PokerDealer::ProcessArgs(int argc, char* argv[])
             switch (c)
             {
                 case 0:
-                    if (0 < DeckOfCards::INCLUDE_JOKERS)
+                    if (0 < PokerDealer::INCLUDE_JOKERS)
                     {
                         std::cout << "Including Jokers." << std::endl;
                     }
@@ -45,23 +70,23 @@ void PokerDealer::ProcessArgs(int argc, char* argv[])
                 case 'd':
                     if (long_options[option_index].has_arg)
                     {
-                        DeckOfCards::numDecks = std::stoi(optarg);
-                        std::cout << "Using " << DeckOfCards::numDecks << " deck(s)." << std::endl;
+                        PokerDealer::numDecks = std::stoi(optarg);
+                        std::cout << "Using " << PokerDealer::numDecks << " deck(s)." << std::endl;
                     }
                 break;
                 case 'n':
                     if (long_options[option_index].has_arg)
                     {
-                        DeckOfCards::handSize = std::stoi(optarg);
-                        std::cout << "Being told to draw " << DeckOfCards::handSize << " cards." << std::endl;
+                        PokerDealer::handSize = std::stoi(optarg);
+                        std::cout << "Being told to draw " << PokerDealer::handSize << " cards." << std::endl;
                     }
 
                 break;
                 case 'p':
                     if (long_options[option_index].has_arg)
                     {
-                        DeckOfCards::numPlayers = std::stoi(optarg);
-                        std::cout << "There are " << DeckOfCards::numPlayers << " players." << std::endl;
+                        PokerDealer::numPlayers = std::stoi(optarg);
+                        std::cout << "There are " << PokerDealer::numPlayers << " players." << std::endl;
                     }
                 break;
                 case 'h':

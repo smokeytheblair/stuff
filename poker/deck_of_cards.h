@@ -52,11 +52,9 @@ const std::string JOKERS[] = {"Joker(tm)", "Joker"};
 class DeckOfCards 
 {
 public:
-    DeckOfCards();
+    DeckOfCards(int, bool);
     DeckOfCards(const DeckOfCards&) = delete;
     ~DeckOfCards();
-
-    static void ProcessArgs(int argc, char* argv[]);
 
     void PrintCards(CARDS cards);
     CARDS DrawCards(int num);
@@ -64,17 +62,13 @@ public:
     void Shuffle();
     uint16_t Size();
 
-    static int handSize;
-    static int numPlayers;
-    static int numDecks;
-
     static uint16_t NUM_SUITS;
     static uint16_t NUM_VALUES;
-    static int INCLUDE_JOKERS;
-
     
 private:
     CARDS myCards;
+    bool includeJokers;
+    int numDecks;
 };
 
 #endif //DECK_OF_CARDS_H

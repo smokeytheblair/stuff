@@ -4,20 +4,15 @@
 #include <locale>
 #include <ctime>
 #include <experimental/random>
-#include <getopt.h>
 
 #include "deck_of_cards.h"
 #include "poker_player.h"
 
-int DeckOfCards::handSize = 5;
-int DeckOfCards::numPlayers = 1;
-int DeckOfCards::numDecks = 1;
 
 uint16_t DeckOfCards::NUM_SUITS = sizeof(SUITS)/sizeof(std::string);
 uint16_t DeckOfCards::NUM_VALUES = sizeof(VALUES)/sizeof(std::string);
-int      DeckOfCards::INCLUDE_JOKERS = false;
 
-DeckOfCards::DeckOfCards()
+DeckOfCards::DeckOfCards(int numDecks, bool includeJokers)
 {
 
     // std::wcout  << L"Building a deck of cards.\n"
@@ -25,11 +20,12 @@ DeckOfCards::DeckOfCards()
     //             << L"Values: " << NUM_VALUES
     //             << std::endl;
 
+    this->numDecks = numDecks;
+    this->includeJokers = includeJokers;
 
-
-    for (int num_decks = 0; num_decks<DeckOfCards::numDecks; num_decks++)
+    for (int num_decks = 0; num_decks<numDecks; num_decks++)
     {
-        if (0 < INCLUDE_JOKERS)
+        if (includeJokers)
         {
             Card card;
             card.Value = JOKERS[0];
@@ -117,135 +113,4 @@ void DeckOfCards::Shuffle()
 uint16_t DeckOfCards::Size()
 {
     return myCards.size();
-}
-
-void DeckOfCards::ProcessArgs(int argc, char* argv[])
-{
-     if (1 < argc)
-    {
-        static struct option long_options [] =
-        {
-            {"num-cards", required_argument, 0, 'n'},
-            {"decks", required_argument, 0, 'd'},
-            {"players", required_argument, 0, 'p'},
-            {"jokers", no_argument, &DeckOfCards::INCLUDE_JOKERS, 'j'},
-            {0,0,0,0}  
-        };
-
-        int option_index = 0;
-        int c;
-
-        while((c = getopt_long(argc, argv, "n:", long_options, &option_index)) != -1)
-        {
-            switch (c)
-            {
-                case 0:
-                    if (0 < DeckOfCards::INCLUDE_JOKERS)
-                    {
-                        std::cout << "Including Jokers." << std::endl;
-                    }
-                break;
-                case 'd':
-                    if (long_options[option_index].has_arg)
-                    {
-                        DeckOfCards::numDecks = std::stoi(optarg);
-                        std::cout << "Using " << DeckOfCards::numDecks << " deck(s)." << std::endl;
-                    }
-                break;
-                case 'n':
-                    if (long_options[option_index].has_arg)
-                    {
-                        DeckOfCards::handSize = std::stoi(optarg);
-                        std::cout << "Being told to draw " << DeckOfCards::handSize << " cards." << std::endl;
-                    }
-
-                break;
-                case 'p':
-                    if (long_options[option_index].has_arg)
-                    {
-                        DeckOfCards::numPlayers = std::stoi(optarg);
-                        std::cout << "There are " << DeckOfCards::numPlayers << " players." << std::endl;
-                    }
-                break;
-                case 'h':
-                case '?':
-                    std::cout << "Help message." << std::endl;
-                break;
-                default:
-                break;
-            }
-        }
-    }
-    else
-    {
-        /* code */
-    }
-
-    return;
-}
-
-int main(int argc, char* argv[])
-{
-    DeckOfCards::ProcessArgs(argc, argv);
-
-    DeckOfCards deck;
-
-    deck.Shuffle();
-    std::deque<PokerPlayer> players;
-
-    for (size_t i=1; i<=DeckOfCards::numPlayers; i++)
-    {
-        PokerPlayer player("Player " + std::to_string(i), i);
-        players.push_back(player);
-
-        // std::cout << "Added " << player.GetName() << std::endl;
-    }
-/*    
-    CARDS hand;
-
-    Card card;
-    card.Suit = SUITS[SPADES];
-    card.Value = VALUES[SIX];
-    hand.push_back(card);
-
-    card.Value = VALUES[FIVE];
-    hand.push_back(card);
-
-    card.Value = VALUES[SEVEN];
-    hand.push_back(card);
-
-    card.Value = VALUES[EIGHT];
-    hand.push_back(card);
-
-    card.Value = VALUES[NINE];
-    hand.push_back(card);
-*/
-
-    for (int i; i<DeckOfCards::handSize; i++)
-    {
-        for (PokerPlayer& player : players)    
-        {
-            Card card = deck.DrawCard();
-            // std::cout << "Drawing card: " << card.Value << card.Suit << std::endl;
-
-/*          if (1 == player.GetPlayerNumber())
-            {
-              player.ReceiveCard(hand.front());
-              hand.pop_front();
-            }
-            else
-*/          {            
-              player.ReceiveCard(card);
-            }
-        }
-    } 
-
-    int player_num = 1;
-    for (PokerPlayer& player : players)   
-    {
-        std::cout << player.GetName() << ": " << player.HandToString()// << std::endl;
-                  << " \t: " << PokerPlayer::HandNameToString(player.EvaluateHand()) << std::endl;
-    }
-
-    return 0;
 }
