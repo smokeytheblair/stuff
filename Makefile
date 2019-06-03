@@ -17,7 +17,7 @@ luhn: luhn.cpp
 	$(CC) $(FLAGS) luhn.cpp -o luhn
 
 clean:
-	rm -f prime_numbers big_switch sizeof_types luhn poker
+	rm -f prime_numbers big_switch sizeof_types luhn
 
 cpp_primes: prime_numbers
 	@echo '=========================='
