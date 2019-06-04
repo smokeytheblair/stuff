@@ -8,7 +8,6 @@
 int PokerDealer::handSize = 5;
 int PokerDealer::numPlayers = 1;
 int PokerDealer::numDecks = 1;
-int PokerDealer::INCLUDE_JOKERS = 0;
 
 
 PokerDealer::PokerDealer(DeckOfCards& newDeck, std::deque<PokerPlayer>& newPlayers)
@@ -50,7 +49,6 @@ void PokerDealer::ProcessArgs(int argc, char* argv[])
             {"num-cards", required_argument, 0, 'n'},
             {"decks", required_argument, 0, 'd'},
             {"players", required_argument, 0, 'p'},
-            {"jokers", no_argument, &PokerDealer::INCLUDE_JOKERS, 'j'},
             {0,0,0,0}  
         };
 
@@ -62,10 +60,6 @@ void PokerDealer::ProcessArgs(int argc, char* argv[])
             switch (c)
             {
                 case 0:
-                    if (0 < PokerDealer::INCLUDE_JOKERS)
-                    {
-                        std::cout << "Including Jokers." << std::endl;
-                    }
                 break;
                 case 'd':
                     if (long_options[option_index].has_arg)

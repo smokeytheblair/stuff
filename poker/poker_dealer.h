@@ -21,7 +21,6 @@ public:
     static int handSize;
     static int numPlayers;
     static int numDecks;
-    static int INCLUDE_JOKERS;
 
 private:    
     DeckOfCards& deck;

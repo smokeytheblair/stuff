@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
 {
     PokerDealer::ProcessArgs(argc, argv);
 
-    DeckOfCards deck(PokerDealer::numDecks, 0 != PokerDealer::INCLUDE_JOKERS);
+    DeckOfCards deck(PokerDealer::numDecks);
 
     deck.Shuffle();
     std::deque<PokerPlayer> players;

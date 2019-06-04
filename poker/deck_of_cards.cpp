@@ -12,7 +12,7 @@
 uint16_t DeckOfCards::NUM_SUITS = sizeof(SUITS)/sizeof(std::string);
 uint16_t DeckOfCards::NUM_VALUES = sizeof(VALUES)/sizeof(std::string);
 
-DeckOfCards::DeckOfCards(int numDecks, bool includeJokers)
+DeckOfCards::DeckOfCards(int numDecks)
 {
 
     // std::wcout  << L"Building a deck of cards.\n"
@@ -21,20 +21,9 @@ DeckOfCards::DeckOfCards(int numDecks, bool includeJokers)
     //             << std::endl;
 
     this->numDecks = numDecks;
-    this->includeJokers = includeJokers;
 
     for (int num_decks = 0; num_decks<numDecks; num_decks++)
     {
-        if (includeJokers)
-        {
-            Card card;
-            card.Value = JOKERS[0];
-            myCards.push_back(card);
-
-            card.Value = JOKERS[1];
-            myCards.push_back(card);
-        }
-
         for( int i=0; i<NUM_SUITS; i++)
         {
             for( int j=0; j<NUM_VALUES; j++)

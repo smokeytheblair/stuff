@@ -47,12 +47,11 @@ enum VALUD_IDS
 typedef std::deque<Card> CARDS;
 const std::string SUITS[] = {"\u2665", "\u2660", "\u2666", "\u2663"};
 const std::string VALUES[] = {"A", "K", "Q", "J", "10", "9", "8", "7", "6", "5", "4", "3", "2"};
-const std::string JOKERS[] = {"Joker(tm)", "Joker"};
 
 class DeckOfCards 
 {
 public:
-    DeckOfCards(int, bool);
+    DeckOfCards(int);
     DeckOfCards(const DeckOfCards&) = delete;
     ~DeckOfCards();
 
@@ -67,7 +66,6 @@ public:
     
 private:
     CARDS myCards;
-    bool includeJokers;
     int numDecks;
 };
 
