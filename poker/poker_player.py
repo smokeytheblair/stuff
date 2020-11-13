@@ -1,7 +1,7 @@
 import asyncio
 from enum import Enum
 import copy
-from poppy.poker.deck_of_cards import VALUES, VALUE_IDS
+from deck_of_cards import VALUES, VALUE_IDS
 from collections import defaultdict
 
 class Action(Enum):

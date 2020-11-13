@@ -1,7 +1,7 @@
 import asyncio
-from poppy.poker.deck_of_cards import DeckOfCards
-from poppy.poker.deck_of_cards import TEST_HANDS
-from poppy.poker.poker_player import PokerPlayer
+from deck_of_cards import DeckOfCards
+from deck_of_cards import TEST_HANDS
+from poker_player import PokerPlayer
 
 class PokerDealer:
 
