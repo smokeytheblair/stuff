@@ -1,8 +1,8 @@
 import asyncio
 
-from poppy.poker.deck_of_cards import DeckOfCards
-from poppy.poker.poker_dealer import PokerDealer
-from poppy.poker.poker_player import PokerPlayer
+from deck_of_cards import DeckOfCards
+from poker_dealer import PokerDealer
+from poker_player import PokerPlayer
 
 
 async def play_poker(hub):
