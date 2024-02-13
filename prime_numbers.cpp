@@ -100,7 +100,18 @@ int main(int argc, char* argv[])
   }
   else
   {
-    print_usage(argv[0]);
+    long num = 0;
+    printf("How high do you want to go? ");
+    scanf("%ld", &num);
+
+    if (num > 0)
+    {
+      compute_primes(num);
+    }
+    else
+    {
+      print_usage(argv[0]);
+    }
   }
 
   return (0);
