@@ -1,7 +1,7 @@
 import asyncio
-from poppy.poker.deck_of_cards import DeckOfCards
-from poppy.poker.deck_of_cards import TEST_HANDS
-from poppy.poker.poker_player import PokerPlayer
+from deck_of_cards import DeckOfCards
+from deck_of_cards import TEST_HANDS
+from poker_player import PokerPlayer
 
 class PokerDealer:
 
@@ -30,9 +30,9 @@ class PokerDealer:
 
 
 async def main():
-    num_players = 10
-    hand_size = 5
-    num_decks = 10
+    num_players = 4
+    hand_size = 2
+    num_decks = 1
 
     deck = DeckOfCards(num_decks)
     players = []
@@ -48,11 +48,42 @@ async def main():
     # dealer.deal_cards_tests()
 
     for player in players:
-        hand_as_string = player.hand_to_string()
-        player_hand = await player.evaluate_hand()
-        hand_name = player.hand_name_to_string(player_hand)
+        hand_as_string = player.hand_to_string(player.hand)
+        print(f'{player.name} {player.number} : {hand_as_string}')
+
+    #deal the flop
+    flop = []
+    # burn a card
+    dealer.deal_card()
+    for i in range(3):
+        flop.append(dealer.deal_card())
+
+    print(f"Flop: {[card.to_string() for card in flop]}")
+
+    #deal turn
+    # burn a card
+    dealer.deal_card()
+    turn = dealer.deal_card()
+    print(f"Turn: {turn.to_string()}")
+
+    #deal river
+    # burn a card
+    dealer.deal_card()
+    river = dealer.deal_card()
+    print(f"River: {river.to_string()}")
+
+    for player in players:
+        player.receive_card(flop[0])
+        player.receive_card(flop[1])
+        player.receive_card(flop[2])
+        player.receive_card(turn)
+        player.receive_card(river)
+
+        hand_key, hand_value = await player.evaluate_hand()
+        hand_as_string = player.hand_to_string(hand_key)
+        hand_name = player.hand_name_to_string(hand_value)
         print(f'{player.name} {player.number} : {hand_as_string}\t{hand_name}')
-        
+
 
 if __name__ == "__main__":
     asyncio.run(main())
