@@ -1,3 +1,4 @@
+import argparse
 import asyncio
 from deck_of_cards import DeckOfCards
 from deck_of_cards import TEST_HANDS
@@ -30,9 +31,15 @@ class PokerDealer:
 
 
 async def main():
-    num_players = 4
-    hand_size = 2
-    num_decks = 1
+    parser = argparse.ArgumentParser(description="Pick a name")
+    parser.add_argument('--hand-size', type=int, default=5, required=True, help='number of cards per player')
+    parser.add_argument('--num-players', type=int, default=5, required=True, help='number of players')
+    parser.add_argument('--num-decks', type=int, default=1, required=True, help='number of decks to shuffle together')
+
+    args = parser.parse_args()
+    num_players = args.num_players
+    hand_size = args.hand_size
+    num_decks = args.num_decks
 
     deck = DeckOfCards(num_decks)
     players = []
@@ -51,34 +58,41 @@ async def main():
         hand_as_string = player.hand_to_string(player.hand)
         print(f'{player.name} {player.number} : {hand_as_string}')
 
-    #deal the flop
-    flop = []
-    # burn a card
-    dealer.deal_card()
-    for i in range(3):
-        flop.append(dealer.deal_card())
+    print('==========')
 
-    print(f"Flop: {[card.to_string() for card in flop]}")
+    if hand_size == 2:
+        # playing Texas Hold'em
+        #deal the flop
+        flop = []
+        # burn a card
+        dealer.deal_card()
+        for i in range(3):
+            flop.append(dealer.deal_card())
 
-    #deal turn
-    # burn a card
-    dealer.deal_card()
-    turn = dealer.deal_card()
-    print(f"Turn: {turn.to_string()}")
+        print(f"Flop: {[card.to_string() for card in flop]}")
 
-    #deal river
-    # burn a card
-    dealer.deal_card()
-    river = dealer.deal_card()
-    print(f"River: {river.to_string()}")
+        #deal turn
+        # burn a card
+        dealer.deal_card()
+        turn = dealer.deal_card()
+        print(f"Turn: {turn.to_string()}")
+
+        #deal river
+        # burn a card
+        dealer.deal_card()
+        river = dealer.deal_card()
+        print(f"River: {river.to_string()}")
+
+        for player in players:
+            player.receive_card(flop[0])
+            player.receive_card(flop[1])
+            player.receive_card(flop[2])
+            player.receive_card(turn)
+            player.receive_card(river)
+
+    print('==========')
 
     for player in players:
-        player.receive_card(flop[0])
-        player.receive_card(flop[1])
-        player.receive_card(flop[2])
-        player.receive_card(turn)
-        player.receive_card(river)
-
         hand_key, hand_value = await player.evaluate_hand()
         hand_as_string = player.hand_to_string(hand_key)
         hand_name = player.hand_name_to_string(hand_value)

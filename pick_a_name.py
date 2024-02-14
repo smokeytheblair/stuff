@@ -18,6 +18,7 @@ def pick_a_name(input_file):
 
     print(f"The winner is {names[pick]}")
 
+
 def main():
     parser = argparse.ArgumentParser(description="Pick a name")
     parser.add_argument('file', type=argparse.FileType('r'))
