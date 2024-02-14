@@ -32,9 +32,9 @@ class PokerDealer:
 
 async def main():
     parser = argparse.ArgumentParser(description="Pick a name")
-    parser.add_argument('--hand-size', type=int, default=5, required=True, help='number of cards per player')
-    parser.add_argument('--num-players', type=int, default=5, required=True, help='number of players')
-    parser.add_argument('--num-decks', type=int, default=1, required=True, help='number of decks to shuffle together')
+    parser.add_argument('--hand-size', type=int, default=5, help='number of cards per player')
+    parser.add_argument('--num-players', type=int, default=5, help='number of players')
+    parser.add_argument('--num-decks', type=int, default=1, help='number of decks to shuffle together')
 
     args = parser.parse_args()
     num_players = args.num_players
