@@ -1,4 +1,4 @@
-CC = g++-9
+CC = g++
 FLAGS = -std=c++17 
 CPP_FILES = main.cpp deck_of_cards.cpp poker_player.cpp poker_dealer.cpp
 H_FILES = deck_of_cards.h poker_player.h poker_dealer.h

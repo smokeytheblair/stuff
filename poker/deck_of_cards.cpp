@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <locale>
 #include <ctime>
-#include <experimental/random>
+#include <random>
 
 #include "deck_of_cards.h"
 #include "poker_player.h"
@@ -85,14 +85,17 @@ void DeckOfCards::Shuffle()
 {
     auto shuffler = [=] 
     {
-        int shuffles = std::experimental::randint(17, 51);
+        //int shuffles = std::experimental::randint(17, 51);
+        std::random_device prng;
+        std::uniform_int_distribution<int> dist(17,51);
+        int shuffles = dist(prng);
 
         for(int i=0; i<shuffles; i++)
         {
             std::srand(std::time(nullptr));
             uint32_t seed = std::rand();
             std::shuffle(myCards.begin(), myCards.end(), std::default_random_engine(seed));
-            std::random_shuffle(myCards.begin(), myCards.end());
+            std::shuffle(myCards.begin(), myCards.end(), prng);
         }
     };
 
