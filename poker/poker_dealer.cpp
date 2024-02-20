@@ -37,7 +37,36 @@ void PokerDealer::DealCards()
         {
             player.ReceiveCard(deck.DrawCard());
         }
-    } 
+    }
+
+
+    if (2 == PokerDealer::handSize)
+    {
+    	CARDS flop;
+    	Card turn;
+    	Card river;
+
+	deck.DrawCard(); //burner card
+	
+	//flop
+	for (int i=0; i<3; i++)
+	{	
+	    flop.push_back(deck.DrawCard());	
+	}
+
+	deck.DrawCard(); //burn a card
+			 //
+	turn = deck.DrawCard();
+
+	deck.DrawCard(); //burn a card
+	
+	river = deck.DrawCard();
+
+	deck.PrintCards(flop);
+
+	std::cout << turn.toString() << std::endl;
+	std::cout << river.toString() << std::endl;
+    }
 }
 
 void PokerDealer::ProcessArgs(int argc, char* argv[])
@@ -46,7 +75,7 @@ void PokerDealer::ProcessArgs(int argc, char* argv[])
     {
         static struct option long_options [] =
         {
-            {"num-cards", required_argument, 0, 'n'},
+            {"hand-size", required_argument, 0, 'n'},
             {"decks", required_argument, 0, 'd'},
             {"players", required_argument, 0, 'p'},
             {0,0,0,0}  
