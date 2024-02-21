@@ -4,7 +4,10 @@
 #include <string>
 #include <deque>
 #include <map>
+#include <set>
 #include "deck_of_cards.h"
+
+typedef std::set<Card> CardCombo;
 
 class PokerPlayer
 {
@@ -38,13 +41,14 @@ public:
     void ReceiveHand(CARDS hand);
     void ReceiveCard(Card card);
     CARDS ReturnCardsToDealer();
+    void FindPossibleHands();
 
     std::string GetName() {return (playerName);}
     size_t GetPlayerNumber() {return(playerNumber);}
     CARDS GetHand() {return(playerHand);}
     std::string HandToString();
 
-    void setTableCards(CARDS& table_cards) {tableCards = table_cards;}
+    void SetTableCards(CARDS& table_cards) {tableCards = table_cards;}
 
     static std::string HandNameToString(PokerHand hand);
 
@@ -67,6 +71,7 @@ private:
     size_t playerNumber;
     std::string playerName;
     std::map<PokerHand, float> hand_results;
+    std::set<CardCombo> possibleHands;
 };
 
 #endif //POKER_PLAYER_H

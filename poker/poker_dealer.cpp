@@ -73,7 +73,7 @@ void PokerDealer::DealCards()
 
         for (PokerPlayer& player : players)
         {
-            player.setTableCards(table_cards);
+            player.SetTableCards(table_cards);
         }
     }
 }

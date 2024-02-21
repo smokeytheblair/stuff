@@ -3,6 +3,7 @@
 #include <future>
 #include <vector>
 #include <map>
+#include <algorithm>
 
 
 PokerPlayer::PokerPlayer(const std::string& name, size_t player_num)
@@ -79,6 +80,19 @@ CARDS PokerPlayer::ReturnCardsToDealer()
     playerHand.clear();
 
     return (oldHand);
+}
+
+void PokerPlayer::FindPossibleHands()
+{
+//    Cards allCards = playerHand + tableCards;
+//
+//    std::set<Card> combo;
+//    for (int i=0; i<5; i++)
+//    {
+//        combo.insert(allCards[i]);
+//    }
+//
+//    possibleHands.insert(combo);
 }
 
 std::string PokerPlayer::HandToString()
