@@ -25,6 +25,7 @@ public:
 private:    
     DeckOfCards& deck;
     std::deque<PokerPlayer>& players;
+    CARDS table_cards;
 };
 
 #endif //POKER_DEALER_H

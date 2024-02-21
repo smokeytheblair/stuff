@@ -83,13 +83,25 @@ CARDS PokerPlayer::ReturnCardsToDealer()
 
 std::string PokerPlayer::HandToString()
 {
-    std::string output;
+    std::string output = "[";
     // std::cout << "HandToString: handSize = " << playerHand.size() << std::endl;
 
     for (Card card : playerHand)
     {
         output += card.toString() + " ";
     }
+
+    if (0 < tableCards.size())
+    {
+        output += "][";
+
+        for (Card card : tableCards)
+        {
+            output += card.toString() + " ";
+        }
+    }
+
+    output += "]";
 
     return (output);
 }

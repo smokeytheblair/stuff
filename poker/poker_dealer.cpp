@@ -46,26 +46,35 @@ void PokerDealer::DealCards()
     	Card turn;
     	Card river;
 
-	deck.DrawCard(); //burner card
-	
-	//flop
-	for (int i=0; i<3; i++)
-	{	
-	    flop.push_back(deck.DrawCard());	
-	}
+        deck.DrawCard(); //burner card
 
-	deck.DrawCard(); //burn a card
-			 //
-	turn = deck.DrawCard();
+        //flop
+        for (int i=0; i<3; i++)
+        {
+            Card temp_card = deck.DrawCard();
+            flop.push_back(temp_card);
+            table_cards.push_back(temp_card);
+        }
 
-	deck.DrawCard(); //burn a card
-	
-	river = deck.DrawCard();
+        deck.DrawCard(); //burn a card
+                 //
+        turn = deck.DrawCard();
+        table_cards.push_back(turn);
 
-	deck.PrintCards(flop);
+        deck.DrawCard(); //burn a card
 
-	std::cout << turn.toString() << std::endl;
-	std::cout << river.toString() << std::endl;
+        river = deck.DrawCard();
+        table_cards.push_back(river);
+
+        deck.PrintCards(flop);
+
+        std::cout << turn.toString() << std::endl;
+        std::cout << river.toString() << std::endl;
+
+        for (PokerPlayer& player : players)
+        {
+            player.setTableCards(table_cards);
+        }
     }
 }
 

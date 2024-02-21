@@ -44,6 +44,8 @@ public:
     CARDS GetHand() {return(playerHand);}
     std::string HandToString();
 
+    void setTableCards(CARDS& table_cards) {tableCards = table_cards;}
+
     static std::string HandNameToString(PokerHand hand);
 
 private:
@@ -61,6 +63,7 @@ private:
 
 
     CARDS playerHand;
+    CARDS tableCards;
     size_t playerNumber;
     std::string playerName;
     std::map<PokerHand, float> hand_results;
