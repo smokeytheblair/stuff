@@ -1,4 +1,5 @@
 # import asyncio
+import os
 from enum import Enum
 import random
 
@@ -67,7 +68,8 @@ class DeckOfCards:
                     self.cards.append(card)
 
     def shuffle(self):
-        for i in range(random.randint(17,51)): 
+        for i in range(random.randint(17,51)):
+            random.seed()
             random.shuffle(self.cards)
         
     def draw_card(self):
