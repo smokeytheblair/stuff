@@ -12,9 +12,11 @@ PokerPlayer::PokerPlayer(const std::string& name, size_t player_num)
     playerNumber = player_num;
 }
 
+
 PokerPlayer::~PokerPlayer()
 {
 }
+
 
 PokerPlayer::Action PokerPlayer::DeterminePlayerAction()
 {
@@ -23,8 +25,14 @@ PokerPlayer::Action PokerPlayer::DeterminePlayerAction()
     return (PokerPlayer::Action::FOLD);
 }
 
+
 PokerPlayer::PokerHand PokerPlayer::EvaluateHand()
 {
+    if ( 0 < tableCards.size())
+    {
+    	FindPossibleHands();
+    }
+    
     std::map<PokerHand, std::future<float> > futures;
     float hand_results[11] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 
@@ -62,6 +70,7 @@ PokerPlayer::PokerHand PokerPlayer::EvaluateHand()
     return (highestHand);
 }
 
+
 void PokerPlayer::ReceiveCard(Card card)
 {
     playerHand.push_back(card);
@@ -69,10 +78,12 @@ void PokerPlayer::ReceiveCard(Card card)
     //           << ". HandSize = " << playerHand.size() << std::endl;
 }
 
+
 void PokerPlayer::ReceiveHand(CARDS hand)
 {
     playerHand = hand;
 }
+
 
 CARDS PokerPlayer::ReturnCardsToDealer()
 {
@@ -82,18 +93,33 @@ CARDS PokerPlayer::ReturnCardsToDealer()
     return (oldHand);
 }
 
+
 void PokerPlayer::FindPossibleHands()
 {
-//    Cards allCards = playerHand + tableCards;
-//
-//    std::set<Card> combo;
-//    for (int i=0; i<5; i++)
-//    {
-//        combo.insert(allCards[i]);
-//    }
-//
-//    possibleHands.insert(combo);
+    CARDS allCards = playerHand;
+    allCards.insert(allCards.end(), tableCards.cbegin(), tableCards.cend());
+
+    //std::cout << "7 cards: " << std::endl;
+    //DeckOfCards::PrintCards(allCards);
+
+    int loop_count = 0;
+    do
+    {
+    	CardCombo combo;
+    	for (int i=0; i<5; i++)
+    	{
+       		combo.insert(allCards[i]);
+    	}
+
+    	possibleHands.insert(combo);
+
+	std::cout << ++loop_count << " possibleHands :" << possibleHands.size() << std::endl;
+
+    } while (std::next_permutation(allCards.begin(), allCards.end()));
+
+    std::cout << "Possible Hands: " << possibleHands.size() << std::endl;
 }
+
 
 std::string PokerPlayer::HandToString()
 {

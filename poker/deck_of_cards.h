@@ -17,6 +17,12 @@ struct Card
         //std::cout << "Printing: " << Value << Suit << " as " << cardName << std::endl;
         return (cardName);
     }
+
+    
+    bool operator < (const Card card) const
+    {
+	return (this->Suit < card.Suit || this->Value < card.Value);
+    }	
 };
 
 enum SUIT_IDS
@@ -55,7 +61,7 @@ public:
     DeckOfCards(const DeckOfCards&) = delete;
     ~DeckOfCards();
 
-    void PrintCards(CARDS cards);
+    static void PrintCards(CARDS cards);
     CARDS DrawCards(int num);
     Card DrawCard();
     void Shuffle();
