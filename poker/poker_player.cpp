@@ -115,7 +115,7 @@ void PokerPlayer::FindPossibleHands()
 
 	std::cout << ++loop_count << " possibleHands :" << possibleHands.size() << std::endl;
 
-    } while (std::next_permutation(allCards.begin(), allCards.end()));
+    } while (std::ranges::next_permutation(allCards).found);
 
     std::cout << "Possible Hands: " << possibleHands.size() << std::endl;
 }

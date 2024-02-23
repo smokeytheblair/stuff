@@ -18,6 +18,11 @@ struct Card
         return (cardName);
     }
 
+
+    std::ostream& operator << (std::ostream& os)
+    {
+        return os << this->Value << this->Suit;
+    }
     
     bool operator < (const Card card) const
     {
