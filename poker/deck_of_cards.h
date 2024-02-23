@@ -10,7 +10,7 @@ struct Card
     std::string Suit;
     std::string Value;
 
-    std::string toString() 
+    std::string toString() const
     {
         std::string cardName;
         cardName += Value + Suit;
@@ -26,7 +26,7 @@ struct Card
     
     bool operator < (const Card card) const
     {
-	return (this->Suit < card.Suit || this->Value < card.Value);
+	return (this->toString() < card.toString());
     }	
 };
 

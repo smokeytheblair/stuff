@@ -33,39 +33,46 @@ PokerPlayer::PokerHand PokerPlayer::EvaluateHand()
     	FindPossibleHands();
     }
     
-    std::map<PokerHand, std::future<float> > futures;
-    float hand_results[11] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+    std::map<std::string, std::map<PokerHand, std::future<float>> everything_everywhere_all_at_once;
 
-    PokerHand highestHand = PokerHand::NOTHING;
-
-    futures[NOTHING] = (std::async(std::launch::async, [=]{return IsNothing();}));
-    futures[PAIR] = (std::async(std::launch::async, [=]{return IsPair();}));
-    futures[TWO_PAIR] = (std::async(std::launch::async, [=]{return IsTwoPairs();}));
-    futures[THREE_OF_A_KIND] = (std::async(std::launch::async, [=]{return IsThreeOfaKind();}));
-    futures[STRAIGHT] = (std::async(std::launch::async, [=]{return IsStraight();}));
-    futures[FLUSH] = (std::async(std::launch::async, [=]{return IsFlush();}));
-    futures[FULL_HOUSE] = (std::async(std::launch::async, [=]{return IsFullHouse();}));
-    futures[FOUR_OF_A_KIND] = (std::async(std::launch::async, [=]{return IsFourOfaKind();}));
-    futures[STRAIGHT_FLUSH] = (std::async(std::launch::async, [=]{return IsStraightFlush();}));
-    futures[ROYAL_FLUSH] = (std::async(std::launch::async, [=]{return IsRoyalFlush();}));
-    futures[FIVE_OF_A_KIND] = (std::async(std::launch::async, [=]{return IsFiveOfaKind();}));
-
-    // std::cout << "Is<HAND> functions have been started." << std::endl;
-
-    for (std::map<PokerHand, std::future<float> >::iterator it = futures.begin();
-        it != futures.end();
-        it++)
+    for (CARDS hand : possibleHands)
     {
-        (*it).second.wait();
+    	std::map<PokerHand, std::future<float> > futures;
+    	float hand_results[11] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 
-        hand_results[(*it).first] = (*it).second.get();
-        // std::cout << "Hand score[" << HandNameToString((*it).first) << "] = " << hand_results[(*it).first] << std::endl;
+    	PokerHand highestHand = PokerHand::NOTHING;
 
-        if (1.0 == hand_results[(*it).first])
-        {
-            highestHand = (*it).first;
-        }
-    }    
+    	futures[NOTHING] = (std::async(std::launch::async, [this]{return IsNothing();}));
+    	futures[PAIR] = (std::async(std::launch::async, [this]{return IsPair();}));
+    	futures[TWO_PAIR] = (std::async(std::launch::async, [this]{return IsTwoPairs();}));
+    	futures[THREE_OF_A_KIND] = (std::async(std::launch::async, [this]{return IsThreeOfaKind();}));
+    	futures[STRAIGHT] = (std::async(std::launch::async, [this]{return IsStraight();}));
+    	futures[FLUSH] = (std::async(std::launch::async, [this]{return IsFlush();}));
+    	futures[FULL_HOUSE] = (std::async(std::launch::async, [this]{return IsFullHouse();}));
+    	futures[FOUR_OF_A_KIND] = (std::async(std::launch::async, [this]{return IsFourOfaKind();}));
+    	futures[STRAIGHT_FLUSH] = (std::async(std::launch::async, [this]{return IsStraightFlush();}));
+    	futures[ROYAL_FLUSH] = (std::async(std::launch::async, [this]{return IsRoyalFlush();}));
+    	futures[FIVE_OF_A_KIND] = (std::async(std::launch::async, [this]{return IsFiveOfaKind();}));
+
+    	// std::cout << "Is<HAND> functions have been started." << std::endl;
+
+    	for (std::map<PokerHand, std::future<float> >::iterator it = futures.begin();
+        	it != futures.end();
+        	it++)
+    	{
+        	(*it).second.wait();
+
+        	hand_results[(*it).first] = (*it).second.get();
+        	// std::cout << "Hand score[" << HandNameToString((*it).first) << "] = " << hand_results[(*it).first] << std::endl;
+
+        	if (1.0 == hand_results[(*it).first])
+        	{
+            		highestHand = (*it).first;
+        	}
+    	}    
+
+	everthing_everywhere_all_at_once[DeckOfCards::PrintCards(hand)] = futures;
+    }
     
     return (highestHand);
 }
@@ -102,7 +109,6 @@ void PokerPlayer::FindPossibleHands()
     //std::cout << "7 cards: " << std::endl;
     //DeckOfCards::PrintCards(allCards);
 
-    int loop_count = 0;
     do
     {
     	CardCombo combo;
@@ -113,9 +119,7 @@ void PokerPlayer::FindPossibleHands()
 
     	possibleHands.insert(combo);
 
-	std::cout << ++loop_count << " possibleHands :" << possibleHands.size() << std::endl;
-
-    } while (std::ranges::next_permutation(allCards).found);
+    } while (std::next_permutation(allCards.begin(), allCards.end()));
 
     std::cout << "Possible Hands: " << possibleHands.size() << std::endl;
 }

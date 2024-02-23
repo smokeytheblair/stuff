@@ -83,7 +83,7 @@ CARDS DeckOfCards::DrawCards(int num)
 
 void DeckOfCards::Shuffle()
 {
-    auto shuffler = [=] 
+    auto shuffler = [this] 
     {
         //int shuffles = std::experimental::randint(17, 51);
         std::random_device prng;
