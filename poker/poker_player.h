@@ -47,23 +47,24 @@ public:
     size_t GetPlayerNumber() {return(playerNumber);}
     CARDS GetHand() {return(playerHand);}
     std::string HandToString();
+	CARDS GetPossibleHandasCARDS(CardCombo&);
 
     void SetTableCards(CARDS& table_cards) {tableCards = table_cards;}
 
     static std::string HandNameToString(PokerHand hand);
 
 private:
-   float IsNothing();
-   float IsPair();
-   float IsTwoPairs();
-   float IsThreeOfaKind();
-   float IsStraight();
-   float IsFlush();
-   float IsFullHouse();
-   float IsFourOfaKind();
-   float IsStraightFlush();
-   float IsRoyalFlush();
-   float IsFiveOfaKind();
+   float IsNothing(CARDS);
+   float IsPair(CARDS);
+   float IsTwoPairs(CARDS);
+   float IsThreeOfaKind(CARDS);
+   float IsStraight(CARDS);
+   float IsFlush(CARDS);
+   float IsFullHouse(CARDS);
+   float IsFourOfaKind(CARDS);
+   float IsStraightFlush(CARDS);
+   float IsRoyalFlush(CARDS);
+   float IsFiveOfaKind(CARDS);
 
 
     CARDS playerHand;
