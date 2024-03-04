@@ -47,13 +47,16 @@ DeckOfCards::~DeckOfCards()
 
 }
 
-void DeckOfCards::PrintCards(CARDS cards)
+std::string DeckOfCards::PrintCards(CARDS& cards)
 {
+    std::string ret;
     for (Card card : cards)
     {
+        ret += card.Value + " ";
         std::cout << card.Value << card.Suit << " ";
     }
     std::cout << std::endl;
+    return ret;
 }
 
 Card DeckOfCards::DrawCard()

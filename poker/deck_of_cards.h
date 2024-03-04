@@ -66,8 +66,8 @@ public:
     DeckOfCards(const DeckOfCards&) = delete;
     ~DeckOfCards();
 
-    static void PrintCards(CARDS cards);
-    CARDS DrawCards(int num);
+    static std::string PrintCards(CARDS&);
+    CARDS DrawCards(int);
     Card DrawCard();
     void Shuffle();
     uint16_t Size();

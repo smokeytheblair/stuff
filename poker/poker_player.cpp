@@ -40,7 +40,8 @@ PokerPlayer::PokerHand PokerPlayer::EvaluateHand()
     for (CardCombo hand_set : possibleHands)
     {
 		CARDS hand = GetPossibleHandasCARDS(hand_set);
-		std::string handStr = PokerDealer::PrintCards(hand);
+
+		std::string handStr = DeckOfCards::PrintCards(hand);
 
     	float hand_results[11] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 
@@ -136,7 +137,7 @@ void PokerPlayer::FindPossibleHands()
 
     } while (std::next_permutation(allCards.begin(), allCards.end()));
 
-    std::cout << "Possible Hands: " << possibleHands.size() << std::endl;
+//    std::cout << "Possible Hands: " << possibleHands.size() << std::endl;
 }
 
 
