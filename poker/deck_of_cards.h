@@ -26,7 +26,7 @@ struct Card
     
     bool operator < (const Card card) const
     {
-	return (this->toString() < card.toString());
+	    return (this->toString() < card.toString());
     }	
 };
 
@@ -66,7 +66,8 @@ public:
     DeckOfCards(const DeckOfCards&) = delete;
     ~DeckOfCards();
 
-    static std::string PrintCards(CARDS&);
+    static std::string CardsToString(CARDS&);
+    static void PrintCards(CARDS&);
     CARDS DrawCards(int);
     Card DrawCard();
     void Shuffle();

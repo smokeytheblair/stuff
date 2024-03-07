@@ -36,12 +36,13 @@ PokerPlayer::PokerHand PokerPlayer::EvaluateHand()
 
     
     std::map<std::string, POKER_FUTURES> everything;
+    std::map<std::string, PokerHand> highest_hands;
 
     for (CardCombo hand_set : possibleHands)
     {
-		CARDS hand = GetPossibleHandasCARDS(hand_set);
+      CARDS hand = GetPossibleHandasCARDS(hand_set);
 
-		std::string handStr = DeckOfCards::PrintCards(hand);
+      std::string handStr = DeckOfCards::CardsToString(hand);
 
     	float hand_results[11] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 
@@ -75,9 +76,25 @@ PokerPlayer::PokerHand PokerPlayer::EvaluateHand()
             		highestHand = (*it).first;
         	}
     	}    
+
+      highest_hands[handStr] = highestHand;
+    }
+
+    std::string hand_cards;
+    PokerHand ultimateHand = PokerHand::NOTHING;
+    for (std::map<std::string, PokerHand>::iterator it = highest_hands.begin(); 
+          it != highest_hands.end();
+          it++)
+    {
+      if ( (*it).second > ultimateHand)
+      {
+        ultimateHand = (*it).second;
+        hand_cards = (*it).first;
+      } 
     }
     
-    return (highestHand);
+    std::cout << "Ultimate hand: " << hand_cards;
+    return (ultimateHand);
 }
 
 
@@ -119,6 +136,17 @@ CARDS PokerPlayer::GetPossibleHandasCARDS(CardCombo& card_set)
 
 void PokerPlayer::FindPossibleHands()
 {
+    if ( 5 == playerHand.size() )
+    {
+      CardCombo combo;
+      for (Card card : playerHand)
+      {
+        combo.insert(card);
+      }
+
+    	possibleHands.insert(combo);
+      return;
+    }
     CARDS allCards = playerHand;
     allCards.insert(allCards.end(), tableCards.cbegin(), tableCards.cend());
 
