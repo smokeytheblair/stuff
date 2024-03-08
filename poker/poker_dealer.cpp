@@ -66,11 +66,15 @@ void PokerDealer::DealCards()
         river = deck.DrawCard();
         table_cards.push_back(river);
 
-	std::cout << "Flop: ";
+        std::cout << "================" << std::endl;
+        std::cout << "Flop: ";
         deck.PrintCards(flop);
 
+        std::cout << "================" << std::endl;
         std::cout << "Turn: " << turn.toString() << std::endl;
+        std::cout << "================" << std::endl;
         std::cout << "River: " << river.toString() << std::endl;
+        std::cout << "================" << std::endl;
 
         for (PokerPlayer& player : players)
         {
