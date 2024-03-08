@@ -29,10 +29,7 @@ PokerPlayer::Action PokerPlayer::DeterminePlayerAction()
 
 PokerPlayer::PokerHand PokerPlayer::EvaluateHand()
 {
-    if ( 0 < tableCards.size())
-    {
-    	FindPossibleHands();
-    }
+   	FindPossibleHands();
 
     
     std::map<std::string, POKER_FUTURES> everything;
