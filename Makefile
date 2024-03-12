@@ -1,4 +1,4 @@
-CC = g++-9
+CC = g++
 FLAGS = -std=c++17 
 FILES = prime_numbers.cpp
 

@@ -13,7 +13,7 @@ def print_usage(name):
     print('python3 {} <max_number>'.format(name))
 
 def create_boolean_list(max: int):
-    numbers = np.ones(int(max/2), dtype=np.bool)
+    numbers = np.ones(int(max/2), dtype=bool)
     numbers[1] = False
     return numbers
 
